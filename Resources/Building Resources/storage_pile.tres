@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3 uid="uid://dpiowxbqbmshy"]
+
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_utcvu"]
+[ext_resource type="Resource" uid="uid://c87fiysb531ll" path="res://Resources/Item Resources/Raw/wood.tres" id="2_j3i22"]
+[ext_resource type="Script" uid="uid://bg164elkow3gd" path="res://Scripts/Data/BuildingData.gd" id="2_jecti"]
+[ext_resource type="Texture2D" uid="uid://u1p7wygce56" path="res://Art/Buildings/Storage.png" id="2_vcul1"]
+[ext_resource type="PackedScene" uid="uid://cjnodeucwbng2" path="res://Scenes/Buildings/StorageBuilding.tscn" id="2_xyvvp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j3i22"]
+atlas = ExtResource("2_vcul1")
+region = Rect2(0, 0, 48, 48)
+
+[resource]
+script = ExtResource("2_jecti")
+building_name = "Storage Pile"
+category = "Storage"
+icon = SubResource("AtlasTexture_j3i22")
+scene = ExtResource("2_xyvvp")
+cost = Dictionary[ExtResource("1_utcvu"), int]({
+ExtResource("2_j3i22"): 10
+})
+metadata/_custom_type_script = "uid://bg164elkow3gd"

@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dsejcqy6g78gy"]
+
+[ext_resource type="Script" uid="uid://c7kmmipnkqdab" path="res://Scripts/Buildings/furnace.gd" id="1_ifv6t"]
+[ext_resource type="Script" uid="uid://cu2wr1xya8kuf" path="res://Scripts/Data/RecipeData.gd" id="2_yugn8"]
+[ext_resource type="Resource" uid="uid://djkgx801shkwv" path="res://Resources/Recipe Resources/spear_recipe.tres" id="3_yugn8"]
+[ext_resource type="Resource" uid="uid://co6dkqbq33wc" path="res://Resources/Recipe Resources/pot_helmet_recipe.tres" id="4_5p73h"]
+[ext_resource type="Resource" uid="uid://c8j50if3y3rkt" path="res://Resources/Recipe Resources/sword_recipe.tres" id="5_vadxh"]
+[ext_resource type="Resource" uid="uid://dv22uk7a8yb2v" path="res://Resources/Recipe Resources/shield_recipe.tres" id="6_0srih"]
+[ext_resource type="Texture2D" uid="uid://cqlb4gh7gg8x7" path="res://Art/Buildings/Forge.png" id="6_o7rf1"]
+[ext_resource type="Resource" uid="uid://bioh4k64fr2xw" path="res://Resources/Recipe Resources/knight_helmet_recipe.tres" id="7_qbl26"]
+[ext_resource type="Resource" uid="uid://dvai0p4bg47ye" path="res://Resources/Recipe Resources/iron_cog_recipe.tres" id="8_mioyp"]
+
+[node name="Forge" type="Node2D" unique_id=2107772403]
+script = ExtResource("1_ifv6t")
+available_recipes = Array[ExtResource("2_yugn8")]([ExtResource("3_yugn8"), ExtResource("4_5p73h"), ExtResource("5_vadxh"), ExtResource("6_0srih"), ExtResource("7_qbl26"), ExtResource("8_mioyp")])
+menu_offset = Vector2(0, -10)
+building_type = "furnace"
+size_in_tiles = Vector2i(2, 2)
+ambient_sounds = Array[String](["furnace"])
+
+[node name="SpriteRoot" type="Node2D" parent="." unique_id=304485887]
+position = Vector2(0, -16)
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteRoot" unique_id=1638924138]
+texture = ExtResource("6_o7rf1")
+
+[node name="InteractionPoint" type="Node2D" parent="." unique_id=1077743159]

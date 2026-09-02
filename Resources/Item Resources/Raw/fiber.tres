@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c2fs4b1yb5et0"]
+
+[ext_resource type="Texture2D" uid="uid://deddaqcmm5hut" path="res://Art/Items.png" id="1_bglg7"]
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_ww78a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uyqiw"]
+atlas = ExtResource("1_bglg7")
+region = Rect2(3, 35, 11, 11)
+
+[resource]
+script = ExtResource("1_ww78a")
+name = "fiber"
+display_name = "Fiber"
+icon = SubResource("AtlasTexture_uyqiw")
+stack_size = 99
+metadata/_custom_type_script = "uid://bd2ixn7bdlbcp"

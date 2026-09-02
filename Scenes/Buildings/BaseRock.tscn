@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://d1s5nm2cbytdn"]
+
+[ext_resource type="Script" uid="uid://cfv5sxqex70dg" path="res://Scripts/Buildings/rock.gd" id="1_x3gwy"]
+
+[node name="BaseRock" type="Node2D" unique_id=755423624]
+y_sort_enabled = true
+script = ExtResource("1_x3gwy")
+
+[node name="SpriteRoot" type="Node2D" parent="." unique_id=528446015]
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteRoot" unique_id=841418761]
+
+[node name="InteractionPoint" type="Node2D" parent="." unique_id=517834981]

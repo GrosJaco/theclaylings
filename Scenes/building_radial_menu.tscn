@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dx42gfobpfv5v"]
+
+[ext_resource type="Script" uid="uid://0n6t0v7bvkot" path="res://Scripts/UI/building_radial_menu.gd" id="1_uj2dk"]
+
+[node name="BuildingRadialMenu" type="Node2D" unique_id=1933261544]
+script = ExtResource("1_uj2dk")
+
+[node name="QueueContainer" type="HBoxContainer" parent="." unique_id=668915931]
+layout_direction = 2
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = 17.0
+offset_right = 189.0
+offset_bottom = 77.0
+grow_vertical = 2
+
+[node name="RepeatCheckbox" type="CheckBox" parent="." unique_id=1637729403]
+offset_left = -44.0
+offset_top = 34.0
+offset_right = -20.0
+offset_bottom = 58.0

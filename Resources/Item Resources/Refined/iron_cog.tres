@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://bfxy2y51rl1gg"]
+
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_c4mvk"]
+[ext_resource type="Texture2D" uid="uid://deddaqcmm5hut" path="res://Art/Items.png" id="1_mbqyh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tlrvy"]
+atlas = ExtResource("1_mbqyh")
+region = Rect2(32, 64, 16, 16)
+
+[resource]
+script = ExtResource("1_c4mvk")
+name = "iron_cog"
+display_name = "Iron cog"
+icon = SubResource("AtlasTexture_tlrvy")
+stack_size = 99
+metadata/_custom_type_script = "uid://bd2ixn7bdlbcp"

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://benemybase001"]
+
+[ext_resource type="Script" uid="uid://wpgni4jhleai" path="res://Scripts/Enemies/enemy.gd" id="1_enemy_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_enemy"]
+radius = 7.0
+
+[node name="Enemy" type="CharacterBody2D" unique_id=343255699 groups=["enemies", "threats"]]
+y_sort_enabled = true
+collision_mask = 2
+script = ExtResource("1_enemy_script")
+
+[node name="Pivot" type="Node2D" parent="." unique_id=1115730094]
+position = Vector2(0, -4)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Pivot" unique_id=29146748]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=447004811]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_enemy")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1133478938]
+path_desired_distance = 12.0
+target_desired_distance = 6.0
+path_postprocessing = 1

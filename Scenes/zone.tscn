@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dw10no56c4sf6"]
+
+[ext_resource type="Script" uid="uid://b7s3sd6be611f" path="res://Scripts/UI/zone.gd" id="1_avmra"]
+[ext_resource type="Texture2D" uid="uid://deddaqcmm5hut" path="res://Art/Items.png" id="2_4hnuj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4hnuj"]
+atlas = ExtResource("2_4hnuj")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_up3cu"]
+atlas = ExtResource("2_4hnuj")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ev6g"]
+atlas = ExtResource("2_4hnuj")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tret8"]
+atlas = ExtResource("2_4hnuj")
+region = Rect2(16, 64, 16, 16)
+
+[node name="Zone" type="Node2D" unique_id=628293107]
+script = ExtResource("1_avmra")
+rock_icon = SubResource("AtlasTexture_4hnuj")
+tree_icon = SubResource("AtlasTexture_up3cu")
+plant_icon = SubResource("AtlasTexture_2ev6g")
+metal_icon = SubResource("AtlasTexture_tret8")

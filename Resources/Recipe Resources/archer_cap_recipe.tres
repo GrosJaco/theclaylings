@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="RecipeData" format=3 uid="uid://txahyfw6x2ef"]
+
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_4thlp"]
+[ext_resource type="Script" uid="uid://cu2wr1xya8kuf" path="res://Scripts/Data/RecipeData.gd" id="2_55v2a"]
+[ext_resource type="Resource" uid="uid://i1uv5nhs6bwb" path="res://Resources/Item Resources/Refined/fabric.tres" id="2_d3aja"]
+[ext_resource type="Resource" uid="uid://btgon23tlja3d" path="res://Resources/Item Resources/Equipment/archer_cap.tres" id="3_miy85"]
+
+[resource]
+script = ExtResource("2_55v2a")
+inputs = Dictionary[ExtResource("1_4thlp"), int]({
+ExtResource("2_d3aja"): 3
+})
+output_item = ExtResource("3_miy85")
+craft_time = 10.0
+metadata/_custom_type_script = "uid://cu2wr1xya8kuf"

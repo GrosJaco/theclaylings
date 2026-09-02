@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="RecipeData" format=3 uid="uid://c4mi53soo35f7"]
+
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_0nb01"]
+[ext_resource type="Script" uid="uid://cu2wr1xya8kuf" path="res://Scripts/Data/RecipeData.gd" id="2_p1i8f"]
+[ext_resource type="Resource" uid="uid://c2fs4b1yb5et0" path="res://Resources/Item Resources/Raw/fiber.tres" id="2_wk84v"]
+[ext_resource type="Resource" uid="uid://mlekf8ec8bxw" path="res://Resources/Item Resources/Refined/rope.tres" id="3_dfh4l"]
+
+[resource]
+script = ExtResource("2_p1i8f")
+inputs = Dictionary[ExtResource("1_0nb01"), int]({
+ExtResource("2_wk84v"): 3
+})
+output_item = ExtResource("3_dfh4l")
+craft_time = 7.0
+metadata/_custom_type_script = "uid://cu2wr1xya8kuf"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="RecipeData" format=3 uid="uid://kk4gw070r1jq"]
+
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_tcs38"]
+[ext_resource type="Resource" uid="uid://dd5iw065d75is" path="res://Resources/Item Resources/Raw/copper_ore.tres" id="2_6chhr"]
+[ext_resource type="Resource" uid="uid://o2uuuyb3ujf0" path="res://Resources/Item Resources/Refined/copper_bar.tres" id="3_tcs38"]
+[ext_resource type="Script" uid="uid://cu2wr1xya8kuf" path="res://Scripts/Data/RecipeData.gd" id="5_vq7uq"]
+
+[resource]
+script = ExtResource("5_vq7uq")
+inputs = Dictionary[ExtResource("1_tcs38"), int]({
+ExtResource("2_6chhr"): 1
+})
+output_item = ExtResource("3_tcs38")
+craft_time = 10.0
+need_clayling = false
+metadata/_custom_type_script = "uid://cu2wr1xya8kuf"

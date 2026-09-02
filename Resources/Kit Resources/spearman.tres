@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="KitData" format=3 uid="uid://c1g8y14unq6w0"]
+
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1"]
+[ext_resource type="Resource" uid="uid://dfiafvfrqarhw" path="res://Resources/Item Resources/Equipment/spear.tres" id="2"]
+[ext_resource type="Script" uid="uid://dyiwldg7e00tw" path="res://Scripts/Data/KitData.gd" id="2_a34wv"]
+[ext_resource type="Resource" uid="uid://bvhlvytudujb3" path="res://Resources/Item Resources/Equipment/pot_helmet.tres" id="3"]
+
+[resource]
+script = ExtResource("2_a34wv")
+kit_id = "spearman"
+display_name = "Spearman"
+required_items = Array[ExtResource("1")]([ExtResource("3"), ExtResource("2")])
+metadata/_custom_type_script = "uid://dyiwldg7e00tw"

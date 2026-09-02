@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="RecipeData" format=3 uid="uid://coamt25bo710i"]
+
+[ext_resource type="Script" uid="uid://cu2wr1xya8kuf" path="res://Scripts/Data/RecipeData.gd" id="1_8rofm"]
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_yjt73"]
+[ext_resource type="Resource" uid="uid://581nydu3y23j" path="res://Resources/Item Resources/Raw/iron_ore.tres" id="2_742co"]
+[ext_resource type="Resource" uid="uid://c3lf1pdtfkby3" path="res://Resources/Item Resources/Refined/iron_bar.tres" id="4_12jbf"]
+
+[resource]
+script = ExtResource("1_8rofm")
+inputs = Dictionary[ExtResource("1_yjt73"), int]({
+ExtResource("2_742co"): 1
+})
+output_item = ExtResource("4_12jbf")
+craft_time = 10.0
+need_clayling = false
+metadata/_custom_type_script = "uid://cu2wr1xya8kuf"

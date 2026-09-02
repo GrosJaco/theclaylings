@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b83aco3xa6r48"]
+
+[ext_resource type="Script" uid="uid://cbuwwdx1ti4bk" path="res://Scripts/Buildings/plant.gd" id="1_13xx1"]
+
+[node name="BasePlant" type="Node2D" unique_id=327598566]
+y_sort_enabled = true
+script = ExtResource("1_13xx1")
+
+[node name="SpriteRoot" type="Node2D" parent="." unique_id=766667743]
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteRoot" unique_id=274414756]
+
+[node name="InteractionPoint" type="Node2D" parent="." unique_id=1978541881]

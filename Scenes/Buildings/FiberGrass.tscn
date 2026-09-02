@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://fvqlbr5k4wvy"]
+
+[ext_resource type="PackedScene" uid="uid://b83aco3xa6r48" path="res://Scenes/Buildings/BasePlant.tscn" id="1_mha6v"]
+[ext_resource type="Resource" uid="uid://c2fs4b1yb5et0" path="res://Resources/Item Resources/Raw/fiber.tres" id="2_i21ab"]
+[ext_resource type="Texture2D" uid="uid://dxsygva006nvp" path="res://Art/Plants.png" id="3_i21ab"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5jhkk"]
+atlas = ExtResource("3_i21ab")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yb3ka"]
+atlas = ExtResource("3_i21ab")
+region = Rect2(16, 16, 16, 16)
+
+[node name="BasePlant" unique_id=1256210541 instance=ExtResource("1_mha6v")]
+resource_item = ExtResource("2_i21ab")
+min_drop = 3
+max_drop = 6
+possible_sprites = Array[Texture2D]([SubResource("AtlasTexture_5jhkk"), SubResource("AtlasTexture_yb3ka")])
+building_type = "plant"
+
+[node name="InteractionPoint" parent="." index="1" unique_id=1978541881]
+position = Vector2(0, 4)

@@ -1,0 +1,335 @@
+extends CharacterBody2D
+class_name Enemy
+
+# ========== EXPORTED VARIABLES ==========
+
+@export var enemy_name: String = "Enemy"
+@export var max_health: float = 50.0
+@export var speed: float = 40.0
+@export var attack_damage: float = 12.0
+@export var attack_range: float = 22.0
+@export var aggro_range: float = 140.0
+@export var attack_cooldown: float = 1.5
+@export_enum("melee", "ranged") var attack_type: String = "melee"
+@export var projectile_scene: PackedScene = null
+@export var wander_radius: float = 64.0
+@export var attack_windup_time: float = 0.25
+
+# ========== STATE & VARIABLES ==========
+
+var health: float = 50.0
+var is_dead: bool = false
+var current_target: Node2D = null
+
+var state: String = "idle" # "idle", "wander", "chase", "attack", "death"
+var _state_timer: float = 0.0
+var _attack_cooldown_timer: float = 0.0
+var _spawn_pos: Vector2 = Vector2.ZERO
+var _stuck_timer: float = 0.0
+var _scan_timer: float = 0.0
+var _last_direction: String = "down"
+
+# ========== REFERENCES ==========
+
+@onready var world: Node2D = $".."
+@onready var sprite: AnimatedSprite2D = $Pivot/AnimatedSprite2D
+@onready var pivot: Node2D = $Pivot
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var agent: NavigationAgent2D = $NavigationAgent2D
+
+# ========== FUNCTIONS ==========
+
+func _ready() -> void:
+	add_to_group("enemies")
+	add_to_group("threats")
+	
+	collision_layer = 1
+	collision_mask = 2 # Walls layer only
+	
+	health = max_health
+	_spawn_pos = global_position
+	_scan_timer = randf_range(0.0, 0.2) # Jitter initial scan
+	_enter_idle()
+
+func _physics_process(delta: float) -> void:
+	if is_dead:
+		return
+
+	if _attack_cooldown_timer > 0.0:
+		_attack_cooldown_timer -= delta
+
+	# Throttled target scanning (every ~0.2s instead of 60 FPS)
+	_scan_timer -= delta
+	if _scan_timer <= 0.0:
+		_scan_timer = randf_range(0.18, 0.24)
+		if state != "attack":
+			_evaluate_target()
+
+	match state:
+		"idle":
+			_process_idle(delta)
+		"wander":
+			_process_wander(delta)
+		"chase":
+			_process_chase(delta)
+		"attack":
+			_process_attack(delta)
+
+	move_and_slide()
+
+# ---------- TARGET ACQUISITION ----------
+
+func _evaluate_target() -> void:
+	# Verify existing target validity
+	if current_target and is_instance_valid(current_target):
+		if current_target.get("is_dead"):
+			current_target = null
+		else:
+			var max_aggro_sq = (aggro_range * 1.5) * (aggro_range * 1.5)
+			if global_position.distance_squared_to(current_target.global_position) > max_aggro_sq:
+				current_target = null
+
+	# Search for new target if none
+	if current_target == null or not is_instance_valid(current_target):
+		current_target = _find_closest_clayling()
+		if current_target and state != "attack":
+			_enter_chase()
+
+func _find_closest_clayling() -> Node2D:
+	var claylings = get_tree().get_nodes_in_group("claylings")
+	var closest: Node2D = null
+	var closest_dist_sq: float = aggro_range * aggro_range
+
+	for c in claylings:
+		if not is_instance_valid(c) or c.get("is_dead"):
+			continue
+		var d_sq = global_position.distance_squared_to(c.global_position)
+		if d_sq <= closest_dist_sq:
+			closest = c
+			closest_dist_sq = d_sq
+
+	return closest
+
+# ---------- STATE MACHINE ----------
+
+func _enter_idle() -> void:
+	state = "idle"
+	velocity = Vector2.ZERO
+	_state_timer = randf_range(1.5, 3.5)
+	_play_animation("idle")
+
+func _process_idle(delta: float) -> void:
+	velocity = Vector2.ZERO
+	_state_timer -= delta
+	if _state_timer <= 0.0:
+		_enter_wander()
+
+func _enter_wander() -> void:
+	state = "wander"
+	var offset = Vector2(randf_range(-wander_radius, wander_radius), randf_range(-wander_radius, wander_radius))
+	var wander_dest = _spawn_pos + offset
+	agent.target_position = wander_dest
+	_play_animation("run")
+
+func _process_wander(delta: float) -> void:
+	if agent.is_navigation_finished() or global_position.distance_to(agent.target_position) < 8.0:
+		_enter_idle()
+		return
+
+	var next_pos = agent.get_next_path_position()
+	var dir = global_position.direction_to(next_pos)
+	velocity = dir * (speed * 0.6)
+	_update_direction(dir)
+
+	if get_real_velocity().length() < 3.0:
+		_stuck_timer += delta
+		if _stuck_timer >= 1.5:
+			_stuck_timer = 0.0
+			_enter_idle()
+			return
+	else:
+		_stuck_timer = 0.0
+
+func _enter_chase() -> void:
+	state = "chase"
+	_stuck_timer = 0.0
+	_play_animation("run")
+
+func _process_chase(delta: float) -> void:
+	if current_target == null or not is_instance_valid(current_target) or current_target.get("is_dead"):
+		current_target = null
+		_enter_idle()
+		return
+
+	var dist_sq = global_position.distance_squared_to(current_target.global_position)
+	var atk_range_sq = attack_range * attack_range
+
+	# Check if close enough to attack
+	if dist_sq <= atk_range_sq:
+		velocity = Vector2.ZERO
+		_stuck_timer = 0.0
+		if _attack_cooldown_timer <= 0.0:
+			_enter_attack()
+		else:
+			_play_animation("idle")
+			_face_position(current_target.global_position)
+		return
+
+	# Move toward target (only repath if target moved > 16px to avoid 60Hz A* spam)
+	if agent.target_position.distance_squared_to(current_target.global_position) > 256.0:
+		agent.target_position = current_target.global_position
+
+	if not agent.is_navigation_finished():
+		var next_pos = agent.get_next_path_position()
+		var dir = global_position.direction_to(next_pos)
+		velocity = dir * speed
+		_update_direction(dir)
+
+		# Anti-stuck watchdog: if blocked against wall for > 2.0s, drop pursuit
+		if get_real_velocity().length() < 5.0:
+			_stuck_timer += delta
+			if _stuck_timer >= 2.0:
+				_stuck_timer = 0.0
+				current_target = null
+				_enter_wander()
+				return
+		else:
+			_stuck_timer = max(0.0, _stuck_timer - delta * 0.5)
+	else:
+		velocity = Vector2.ZERO
+		_play_animation("idle")
+
+var _attack_executed: bool = false
+
+func _enter_attack() -> void:
+	state = "attack"
+	velocity = Vector2.ZERO
+	_state_timer = 0.0
+	_attack_executed = false
+	if current_target and is_instance_valid(current_target):
+		_face_position(current_target.global_position)
+	_play_animation("attack")
+
+func _process_attack(delta: float) -> void:
+	velocity = Vector2.ZERO
+	_state_timer += delta
+
+	# Trigger attack execution once at windup peak
+	if not _attack_executed and _state_timer >= attack_windup_time:
+		_attack_executed = true
+		_execute_attack()
+
+	# Finish attack after animation completion or duration
+	var anim_length = 0.6
+	if sprite and sprite.sprite_frames and sprite.sprite_frames.has_animation(sprite.animation):
+		var frame_count = sprite.sprite_frames.get_frame_count(sprite.animation)
+		var fps = sprite.sprite_frames.get_animation_speed(sprite.animation)
+		if fps > 0:
+			anim_length = float(frame_count) / float(fps)
+
+	if _state_timer >= anim_length:
+		_attack_cooldown_timer = attack_cooldown
+		if current_target and is_instance_valid(current_target) and not current_target.get("is_dead"):
+			_enter_chase()
+		else:
+			_enter_idle()
+
+func _execute_attack() -> void:
+	if current_target == null or not is_instance_valid(current_target) or current_target.get("is_dead"):
+		return
+
+	_face_position(current_target.global_position)
+
+	if attack_type == "melee":
+		var dist = global_position.distance_to(current_target.global_position)
+		if dist <= attack_range + 24.0:
+			if current_target.has_method("take_damage"):
+				current_target.take_damage(attack_damage, self)
+	elif attack_type == "ranged":
+		if projectile_scene:
+			var proj = projectile_scene.instantiate()
+			var shoot_dir = (current_target.global_position - global_position).normalized()
+			proj.global_position = global_position + shoot_dir * 8.0
+			proj.set_target_direction(shoot_dir)
+			proj.damage = attack_damage
+			proj.target_group = "claylings"
+			proj.shooter = self
+			get_parent().add_child(proj)
+
+# ---------- ANIMATIONS & FACING ----------
+
+func _play_animation(anim_name: String) -> void:
+	if sprite == null or sprite.sprite_frames == null:
+		return
+
+	var full_anim = anim_name
+	# Check directional variants first if available
+	if sprite.sprite_frames.has_animation(anim_name + "_" + _last_direction):
+		full_anim = anim_name + "_" + _last_direction
+	elif sprite.sprite_frames.has_animation(anim_name + "_side"):
+		full_anim = anim_name + "_side"
+	elif sprite.sprite_frames.has_animation(anim_name):
+		full_anim = anim_name
+
+	if sprite.animation != full_anim:
+		sprite.play(full_anim)
+
+func _update_direction(dir_vec: Vector2) -> void:
+	if abs(dir_vec.x) > abs(dir_vec.y):
+		_last_direction = "side"
+		sprite.flip_h = dir_vec.x < 0
+	else:
+		_last_direction = "up" if dir_vec.y < 0 else "down"
+
+func _face_position(target_pos: Vector2) -> void:
+	var diff = target_pos - global_position
+	if abs(diff.x) > abs(diff.y):
+		_last_direction = "side"
+		sprite.flip_h = diff.x < 0
+	else:
+		_last_direction = "up" if diff.y < 0 else "down"
+
+# ---------- DAMAGE & DEATH ----------
+
+func take_damage(amount: float) -> void:
+	if is_dead:
+		return
+
+	health = max(0.0, health - amount)
+
+	# Sharp white hit flash
+	modulate = Color(5.0, 5.0, 5.0, 1.0)
+	var hit_tween = create_tween()
+	hit_tween.tween_interval(0.07)
+	hit_tween.tween_callback(func(): modulate = Color.WHITE)
+
+	# If idle or wandering, alert and focus on attacker
+	if state == "idle" or state == "wander":
+		_evaluate_target()
+
+	if health <= 0.0:
+		die()
+
+func die() -> void:
+	if is_dead:
+		return
+	is_dead = true
+	state = "death"
+	velocity = Vector2.ZERO
+
+	remove_from_group("enemies")
+	remove_from_group("threats")
+
+	if collision_shape:
+		collision_shape.set_deferred("disabled", true)
+
+	_play_animation("death")
+
+	# Fade corpse away and remove node
+	await get_tree().create_timer(3.0).timeout
+	if not is_inside_tree():
+		return
+
+	var fade_tween = create_tween()
+	fade_tween.tween_property(self, "modulate:a", 0.0, 1.5)
+	fade_tween.tween_callback(queue_free)

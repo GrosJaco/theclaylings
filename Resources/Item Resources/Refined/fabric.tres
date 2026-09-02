@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://i1uv5nhs6bwb"]
+
+[ext_resource type="Texture2D" uid="uid://deddaqcmm5hut" path="res://Art/Items.png" id="1_0cs8q"]
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_8kvmm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7srfy"]
+atlas = ExtResource("1_0cs8q")
+region = Rect2(32, 32, 16, 16)
+
+[resource]
+script = ExtResource("1_8kvmm")
+name = "fabric"
+display_name = "Fabric"
+icon = SubResource("AtlasTexture_7srfy")
+stack_size = 99
+metadata/_custom_type_script = "uid://bd2ixn7bdlbcp"

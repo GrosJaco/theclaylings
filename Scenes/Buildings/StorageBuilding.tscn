@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cjnodeucwbng2"]
+
+[ext_resource type="Script" uid="uid://du17ap4e1tsqq" path="res://Scripts/Buildings/storage_building.gd" id="1_reqri"]
+[ext_resource type="Texture2D" uid="uid://u1p7wygce56" path="res://Art/Buildings/Storage.png" id="2_btkgl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_opeky"]
+atlas = ExtResource("2_btkgl")
+region = Rect2(0, 0, 192, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_btkgl"]
+size = Vector2(46, 39)
+
+[node name="StorageBuilding" type="Node2D" unique_id=1220735660]
+script = ExtResource("1_reqri")
+capacity = 100
+building_type = "building"
+size_in_tiles = Vector2i(3, 3)
+
+[node name="SpriteRoot" type="Node2D" parent="." unique_id=1409831377]
+position = Vector2(0, -24)
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteRoot" unique_id=305603229]
+texture = SubResource("AtlasTexture_opeky")
+hframes = 4
+
+[node name="InteractionPoint" type="Node2D" parent="." unique_id=2014058462]
+position = Vector2(0, -6)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=545744137]
+position = Vector2(0, -24)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=274709001]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_btkgl")

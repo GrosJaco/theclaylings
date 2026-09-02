@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="KitData" format=3 uid="uid://dc05x4lwddhjw"]
+
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_86ok4"]
+[ext_resource type="Resource" uid="uid://c0we4jtp0fnm1" path="res://Resources/Item Resources/Equipment/knight_helmet.tres" id="2_o4jw3"]
+[ext_resource type="Script" uid="uid://dyiwldg7e00tw" path="res://Scripts/Data/KitData.gd" id="2_r5soj"]
+[ext_resource type="Resource" uid="uid://ccjjrdfd8dkho" path="res://Resources/Item Resources/Equipment/shield.tres" id="3_ll031"]
+[ext_resource type="Resource" uid="uid://l87aremocctw" path="res://Resources/Item Resources/Equipment/sword.tres" id="4_o4jw3"]
+
+[resource]
+script = ExtResource("2_r5soj")
+kit_id = "knight"
+display_name = "Knight"
+required_items = Array[ExtResource("1_86ok4")]([ExtResource("2_o4jw3"), ExtResource("3_ll031"), ExtResource("4_o4jw3")])
+metadata/_custom_type_script = "uid://dyiwldg7e00tw"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TileCustomData" load_steps=2 format=3 uid="uid://b2swiunocxjii"]
+
+[ext_resource type="Script" uid="uid://tsanyj387e7t" path="res://Scripts/Data/TileCustomData.gd" id="1_rjrqt"]
+
+[resource]
+script = ExtResource("1_rjrqt")
+tile_name = "soil"
+atlas_coords = Array[Vector2i]([Vector2i(6, 0), Vector2i(6, 1)])
+source_id = 0
+metadata/_custom_type_script = "uid://tsanyj387e7t"

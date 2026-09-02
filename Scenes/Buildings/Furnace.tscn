@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://dxykbswdrahbx"]
+
+[ext_resource type="Script" uid="uid://c7kmmipnkqdab" path="res://Scripts/Buildings/furnace.gd" id="1_5br25"]
+[ext_resource type="Texture2D" uid="uid://cd34800gisri5" path="res://Art/Buildings/Furnace.png" id="2_5br25"]
+[ext_resource type="Script" uid="uid://dxdv24kryr4dt" path="res://Scripts/Miscellanious/fuel_input.gd" id="2_8hwa7"]
+[ext_resource type="Script" uid="uid://cu2wr1xya8kuf" path="res://Scripts/Data/RecipeData.gd" id="2_b54cd"]
+[ext_resource type="Resource" uid="uid://bx7ff0us50hfr" path="res://Resources/Fuel Resources/wood_fuel.tres" id="3_glr7v"]
+[ext_resource type="Resource" uid="uid://kk4gw070r1jq" path="res://Resources/Recipe Resources/copper_ingot_recipe.tres" id="3_iwo62"]
+[ext_resource type="Resource" uid="uid://dhmcay6opw7wp" path="res://Resources/Recipe Resources/gold_ingot_recipe.tres" id="4_5t4ve"]
+[ext_resource type="Resource" uid="uid://coamt25bo710i" path="res://Resources/Recipe Resources/iron_ingot_recipe.tres" id="5_d82lt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b54cd"]
+atlas = ExtResource("2_5br25")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="Curve" id="Curve_ffxh7"]
+_data = [Vector2(0.27091634, 0.9917145), 0.0, 0.0, 0, 0, Vector2(0.9760956, 0.005736351), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_8hwa7"]
+colors = PackedColorArray(0.827451, 0.93333334, 0, 1, 1, 0.4117647, 0.07450981, 1)
+
+[sub_resource type="Gradient" id="Gradient_b54cd"]
+colors = PackedColorArray(0, 0, 0, 1, 0.45882353, 0.45882353, 0.45882353, 0.54901963)
+
+[sub_resource type="Gradient" id="Gradient_glr7v"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_c147h"]
+gradient = SubResource("Gradient_glr7v")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.9, 0.5)
+
+[node name="Furnace" type="Node2D" unique_id=2107772403]
+script = ExtResource("1_5br25")
+available_recipes = Array[ExtResource("2_b54cd")]([ExtResource("3_iwo62"), ExtResource("4_5t4ve"), ExtResource("5_d82lt")])
+requires_fuel = true
+accepted_fuels = Array[ExtResource("2_8hwa7")]([ExtResource("3_glr7v")])
+menu_offset = Vector2(0, -10)
+building_type = "furnace"
+size_in_tiles = Vector2i(2, 2)
+ambient_sounds = Array[String](["furnace"])
+
+[node name="SpriteRoot" type="Node2D" parent="." unique_id=304485887]
+position = Vector2(0, -12)
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteRoot" unique_id=1638924138]
+texture = SubResource("AtlasTexture_b54cd")
+
+[node name="InteractionPoint" type="Node2D" parent="." unique_id=1077743159]
+
+[node name="FireParticles" type="CPUParticles2D" parent="." unique_id=1942629498]
+position = Vector2(0, -3)
+amount = 30
+emission_shape = 1
+emission_sphere_radius = 3.39
+gravity = Vector2(0, -15)
+scale_amount_curve = SubResource("Curve_ffxh7")
+color_ramp = SubResource("Gradient_8hwa7")
+
+[node name="SmokeParticles" type="CPUParticles2D" parent="." unique_id=310716452]
+position = Vector2(0, -21)
+amount = 20
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector2(0, -40)
+initial_velocity_min = 5.0
+initial_velocity_max = 8.0
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_b54cd")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1515893223]
+position = Vector2(0, -6.75)
+color = Color(1, 0.50980395, 0.11372549, 1)
+texture = SubResource("GradientTexture2D_c147h")

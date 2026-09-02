@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://dd5iw065d75is"]
+
+[ext_resource type="Texture2D" uid="uid://deddaqcmm5hut" path="res://Art/Items.png" id="1_dt3jb"]
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="2_2kogh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b0ogg"]
+atlas = ExtResource("1_dt3jb")
+region = Rect2(16, 80, 16, 16)
+
+[resource]
+script = ExtResource("2_2kogh")
+name = "copper_ore"
+display_name = "Copper ore"
+icon = SubResource("AtlasTexture_b0ogg")
+stack_size = 99
+metadata/_custom_type_script = "uid://bd2ixn7bdlbcp"

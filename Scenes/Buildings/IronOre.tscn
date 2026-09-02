@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bnv4k3kkx6mol"]
+
+[ext_resource type="PackedScene" uid="uid://cn2ftpimu1n4l" path="res://Scenes/Buildings/BaseOre.tscn" id="1_ajicc"]
+[ext_resource type="Resource" uid="uid://581nydu3y23j" path="res://Resources/Item Resources/Raw/iron_ore.tres" id="2_ajicc"]
+[ext_resource type="Texture2D" uid="uid://7f37weduwl7p" path="res://Art/Rocks and ores.png" id="3_ar8vk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0em8q"]
+atlas = ExtResource("3_ar8vk")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ar8vk"]
+atlas = ExtResource("3_ar8vk")
+region = Rect2(16, 16, 16, 16)
+
+[node name="BaseOre" unique_id=755423624 instance=ExtResource("1_ajicc")]
+resource_item = ExtResource("2_ajicc")
+possible_sprites = Array[Texture2D]([SubResource("AtlasTexture_0em8q"), SubResource("AtlasTexture_ar8vk")])
+
+[node name="SpriteRoot" parent="." index="0" unique_id=528446015]
+position = Vector2(0, -8)

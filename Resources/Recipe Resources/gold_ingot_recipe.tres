@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="RecipeData" format=3 uid="uid://dhmcay6opw7wp"]
+
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_7ujo7"]
+[ext_resource type="Resource" uid="uid://tu87q08ulugp" path="res://Resources/Item Resources/Raw/gold_ore.tres" id="2_7ujo7"]
+[ext_resource type="Resource" uid="uid://caxdqngluglyc" path="res://Resources/Item Resources/Refined/gold_bar.tres" id="3_q5h1n"]
+[ext_resource type="Script" uid="uid://cu2wr1xya8kuf" path="res://Scripts/Data/RecipeData.gd" id="4_44hc7"]
+
+[resource]
+script = ExtResource("4_44hc7")
+inputs = Dictionary[ExtResource("1_7ujo7"), int]({
+ExtResource("2_7ujo7"): 1
+})
+output_item = ExtResource("3_q5h1n")
+craft_time = 10.0
+need_clayling = false
+metadata/_custom_type_script = "uid://cu2wr1xya8kuf"

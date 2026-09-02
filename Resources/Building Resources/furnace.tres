@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3 uid="uid://diknwxaqbtc1l"]
+
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_684qy"]
+[ext_resource type="Script" uid="uid://bg164elkow3gd" path="res://Scripts/Data/BuildingData.gd" id="1_lubqw"]
+[ext_resource type="Resource" uid="uid://cu45tf4mmyhkg" path="res://Resources/Item Resources/Raw/stone.tres" id="2_fm1s7"]
+[ext_resource type="PackedScene" uid="uid://dxykbswdrahbx" path="res://Scenes/Buildings/Furnace.tscn" id="2_fp2mo"]
+[ext_resource type="Resource" uid="uid://c87fiysb531ll" path="res://Resources/Item Resources/Raw/wood.tres" id="3_ft6oo"]
+[ext_resource type="Texture2D" uid="uid://cd34800gisri5" path="res://Art/Buildings/Furnace.png" id="4_ft6oo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qu6t"]
+atlas = ExtResource("4_ft6oo")
+region = Rect2(0, 0, 32, 32)
+
+[resource]
+script = ExtResource("1_lubqw")
+building_name = "Furnace"
+category = "Production"
+icon = SubResource("AtlasTexture_5qu6t")
+scene = ExtResource("2_fp2mo")
+cost = Dictionary[ExtResource("1_684qy"), int]({
+ExtResource("2_fm1s7"): 20,
+ExtResource("3_ft6oo"): 10
+})
+metadata/_custom_type_script = "uid://bg164elkow3gd"

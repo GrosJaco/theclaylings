@@ -1,0 +1,242 @@
+[gd_scene format=3 uid="uid://dv3mdcmx5866w"]
+
+[ext_resource type="PackedScene" uid="uid://benemybase001" path="res://Scenes/Enemies/Enemy.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://bf8x4j5is46bx" path="res://Art/Enemies/PurpleSpider.png" id="2_purple_tex"]
+[ext_resource type="PackedScene" uid="uid://webprjct002" path="res://Scenes/Projectiles/WebProjectile.tscn" id="3_web_proj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qi2cf"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jvgp0"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(32, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75m6n"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(64, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mdm0"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(96, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dth_0"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(0, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dth_1"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(32, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dth_2"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(64, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dth_3"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(96, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dth_4"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(128, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dth_5"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(160, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dth_6"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(192, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dth_7"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(224, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dth_8"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(256, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hurt_0"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(0, 160, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hurt_1"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(32, 160, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hurt_2"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(64, 160, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle_0"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle_1"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle_2"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle_3"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle_4"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run_0"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run_1"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run_2"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run_3"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run_4"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run_5"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(160, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_purple_spider"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qi2cf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jvgp0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_75m6n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mdm0")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dth_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dth_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dth_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dth_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dth_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dth_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dth_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dth_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dth_8")
+}],
+"loop": false,
+"name": &"death",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hurt_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hurt_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hurt_2")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle_4")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run_5")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}]
+
+[node name="PurpleSpider" unique_id=1640042081 instance=ExtResource("1_base")]
+enemy_name = "Purple Spider"
+max_health = 40.0
+speed = 36.0
+attack_damage = 8.0
+attack_range = 110.0
+aggro_range = 160.0
+attack_cooldown = 2.4
+attack_type = "ranged"
+projectile_scene = ExtResource("3_web_proj")
+
+[node name="AnimatedSprite2D" parent="Pivot" parent_id_path=PackedInt32Array(1115730094) index="0" unique_id=29146748]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_purple_spider")
+animation = &"run"
+autoplay = "idle"
+
+[node name="CollisionShape2D" parent="." index="1" unique_id=447004811]
+position = Vector2(0, -4)

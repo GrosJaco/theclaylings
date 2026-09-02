@@ -1,0 +1,14 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+*.tmp
+
+# AI Agent instruction and configuration files for testing and debugging
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+.claude/
+
+# System / OS ignores
+.DS_Store
+Thumbs.db

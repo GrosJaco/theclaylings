@@ -1,0 +1,20 @@
+[gd_scene load_steps=6 format=3 uid="uid://blh4rty1xcs5p"]
+
+[ext_resource type="PackedScene" uid="uid://cqu7kmwyappdr" path="res://Scenes/Buildings/BaseSapling.tscn" id="1_xe2b0"]
+[ext_resource type="PackedScene" uid="uid://dn8o50e2mvngx" path="res://Scenes/Buildings/OakTree.tscn" id="2_3o7ed"]
+[ext_resource type="Texture2D" uid="uid://bp381d2uhunyy" path="res://Art/Trees.png" id="3_kmr0p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kmr0p"]
+atlas = ExtResource("3_kmr0p")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8lct2"]
+atlas = ExtResource("3_kmr0p")
+region = Rect2(0, 0, 16, 32)
+
+[node name="BaseSapling" instance=ExtResource("1_xe2b0")]
+adult_tree_scene = ExtResource("2_3o7ed")
+possible_sprites = Array[Texture2D]([SubResource("AtlasTexture_kmr0p")])
+
+[node name="Sprite2D" parent="SpriteRoot" index="0"]
+texture = SubResource("AtlasTexture_8lct2")

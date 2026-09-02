@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://d3rl72y6kymln"]
+
+[ext_resource type="Script" uid="uid://cu2wr1xya8kuf" path="res://Scripts/Data/RecipeData.gd" id="1_recipe_script"]
+[ext_resource type="Resource" uid="uid://cv66msjaluj71" path="res://Resources/Recipe Resources/wood_plank_recipe.tres" id="2_recipe"]
+[ext_resource type="Texture2D" uid="uid://c021mqg2lm1mg" path="res://Art/Buildings/Stump.png" id="3_stump"]
+[ext_resource type="Script" uid="uid://bsjtitou46y0u" path="res://Scripts/Buildings/chopping_block.gd" id="4_script"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_empty"]
+atlas = ExtResource("3_stump")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_log"]
+atlas = ExtResource("3_stump")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_planks"]
+atlas = ExtResource("3_stump")
+region = Rect2(32, 0, 16, 32)
+
+[node name="Chopping Block" type="Node2D" unique_id=439924352]
+script = ExtResource("4_script")
+empty_sprite = SubResource("AtlasTexture_empty")
+log_sprite = SubResource("AtlasTexture_log")
+planks_sprite = SubResource("AtlasTexture_planks")
+available_recipes = Array[ExtResource("1_recipe_script")]([ExtResource("2_recipe")])
+max_queue_size = 5
+worker_animation = "wood_splitting_side"
+worker_sprite_offset = Vector2(8, 0)
+worker_hit_sound = "chop"
+worker_hit_interval = 0.75
+worker_flip_h = true
+menu_offset = Vector2(0, -7)
+building_type = "chopping_block"
+
+[node name="SpriteRoot" type="Node2D" parent="." unique_id=436890734]
+position = Vector2(0, -7)
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteRoot" unique_id=1202686546]
+texture = SubResource("AtlasTexture_empty")
+
+[node name="InteractionPoint" type="Node2D" parent="." unique_id=1128285935]
+position = Vector2(18, -7)

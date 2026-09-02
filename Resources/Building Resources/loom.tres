@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3 uid="uid://sggd6dkkj0ah"]
+
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_1mtik"]
+[ext_resource type="Resource" uid="uid://vdtuohevvfkm" path="res://Resources/Item Resources/Refined/wood_plank.tres" id="2_015an"]
+[ext_resource type="Script" uid="uid://bg164elkow3gd" path="res://Scripts/Data/BuildingData.gd" id="2_ro5g4"]
+[ext_resource type="Resource" uid="uid://c2fs4b1yb5et0" path="res://Resources/Item Resources/Raw/fiber.tres" id="3_e0lkq"]
+[ext_resource type="Texture2D" uid="uid://dmc7u3ua36pct" path="res://Art/Buildings/Loom.png" id="4_p5toa"]
+[ext_resource type="PackedScene" uid="uid://iaieia5ouyso" path="res://Scenes/Buildings/Loom.tscn" id="5_0irn4"]
+
+[resource]
+script = ExtResource("2_ro5g4")
+building_name = "Loom"
+category = "Production"
+icon = ExtResource("4_p5toa")
+scene = ExtResource("5_0irn4")
+cost = Dictionary[ExtResource("1_1mtik"), int]({
+ExtResource("2_015an"): 12,
+ExtResource("3_e0lkq"): 4
+})
+metadata/_custom_type_script = "uid://bg164elkow3gd"

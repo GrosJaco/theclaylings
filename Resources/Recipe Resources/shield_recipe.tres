@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="RecipeData" format=3 uid="uid://dv22uk7a8yb2v"]
+
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_m8hw1"]
+[ext_resource type="Resource" uid="uid://c3lf1pdtfkby3" path="res://Resources/Item Resources/Refined/iron_bar.tres" id="2_qw44u"]
+[ext_resource type="Resource" uid="uid://ccjjrdfd8dkho" path="res://Resources/Item Resources/Equipment/shield.tres" id="3_m8hw1"]
+[ext_resource type="Script" uid="uid://cu2wr1xya8kuf" path="res://Scripts/Data/RecipeData.gd" id="4_otbqw"]
+
+[resource]
+script = ExtResource("4_otbqw")
+inputs = Dictionary[ExtResource("1_m8hw1"), int]({
+ExtResource("2_qw44u"): 3
+})
+output_item = ExtResource("3_m8hw1")
+craft_time = 10.0
+metadata/_custom_type_script = "uid://cu2wr1xya8kuf"

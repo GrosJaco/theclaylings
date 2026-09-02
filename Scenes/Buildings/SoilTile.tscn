@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://bjcyygc4ercod"]
+
+[ext_resource type="Script" uid="uid://bxxx8xnjw5y7p" path="res://Scripts/Buildings/soil_tile.gd" id="1_q8afh"]
+[ext_resource type="Texture2D" uid="uid://b01dfl4jmo383" path="res://Art/GroundTileSet.png" id="2_q8afh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o83dw"]
+atlas = ExtResource("2_q8afh")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ygo0"]
+size = Vector2(16, 16)
+
+[node name="SoilTile" type="Node2D"]
+script = ExtResource("1_q8afh")
+building_type = "ground_tile"
+max_health = 1
+
+[node name="SpriteRoot" type="Node2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteRoot"]
+texture = SubResource("AtlasTexture_o83dw")
+
+[node name="InteractionPoint" type="Node2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_6ygo0")

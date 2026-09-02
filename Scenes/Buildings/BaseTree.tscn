@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://xlylewo8sqtu"]
+
+[ext_resource type="Script" uid="uid://cy8alovt6jalk" path="res://Scripts/Buildings/tree.gd" id="1_r7mqn"]
+[ext_resource type="Resource" uid="uid://c87fiysb531ll" path="res://Resources/Item Resources/Raw/wood.tres" id="2_wxkvt"]
+[ext_resource type="Texture2D" uid="uid://bp381d2uhunyy" path="res://Art/Trees.png" id="3_3cn0b"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wxkvt"]
+atlas = ExtResource("3_3cn0b")
+region = Rect2(16, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3cn0b"]
+atlas = ExtResource("3_3cn0b")
+region = Rect2(32, 0, 16, 48)
+
+[node name="BaseTree" type="Node2D" unique_id=43199335]
+y_sort_enabled = true
+script = ExtResource("1_r7mqn")
+wood_item = ExtResource("2_wxkvt")
+possible_sprites = Array[Texture2D]([SubResource("AtlasTexture_wxkvt"), SubResource("AtlasTexture_3cn0b")])
+building_type = "tree"
+
+[node name="SpriteRoot" type="Node2D" parent="." unique_id=101550676]
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteRoot" unique_id=1349412512]
+
+[node name="InteractionPoint" type="Node2D" parent="." unique_id=927836381]

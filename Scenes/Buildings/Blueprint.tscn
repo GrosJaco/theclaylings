@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dt16nexmx8yjg"]
+
+[ext_resource type="Script" uid="uid://c71j4aljkj415" path="res://Scripts/Buildings/blueprint.gd" id="1_m3cfl"]
+
+[node name="Blueprint" type="Node2D" unique_id=1750866332]
+script = ExtResource("1_m3cfl")
+
+[node name="VisualRoot" type="Node2D" parent="." unique_id=607597530]

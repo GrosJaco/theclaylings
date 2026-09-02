@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://j2vhugnpa0v7"]
+
+[ext_resource type="PackedScene" uid="uid://cn2ftpimu1n4l" path="res://Scenes/Buildings/BaseOre.tscn" id="1_tljok"]
+[ext_resource type="Resource" uid="uid://tu87q08ulugp" path="res://Resources/Item Resources/Raw/gold_ore.tres" id="2_tljok"]
+[ext_resource type="Texture2D" uid="uid://7f37weduwl7p" path="res://Art/Rocks and ores.png" id="3_71mnj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0em8q"]
+atlas = ExtResource("3_71mnj")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ar8vk"]
+atlas = ExtResource("3_71mnj")
+region = Rect2(16, 48, 16, 16)
+
+[node name="BaseOre" unique_id=755423624 instance=ExtResource("1_tljok")]
+resource_item = ExtResource("2_tljok")
+max_drop = 3
+possible_sprites = Array[Texture2D]([SubResource("AtlasTexture_0em8q"), SubResource("AtlasTexture_ar8vk")])
+
+[node name="SpriteRoot" parent="." index="0" unique_id=528446015]
+position = Vector2(0, -8)

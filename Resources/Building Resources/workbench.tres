@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3 uid="uid://bffnau401ukog"]
+
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_vj0t6"]
+[ext_resource type="Script" uid="uid://bg164elkow3gd" path="res://Scripts/Data/BuildingData.gd" id="2_crxvh"]
+[ext_resource type="Resource" uid="uid://vdtuohevvfkm" path="res://Resources/Item Resources/Refined/wood_plank.tres" id="2_jl4wg"]
+[ext_resource type="Texture2D" uid="uid://m2h8mnfuaf6j" path="res://Art/Buildings/Workbench.png" id="2_vvmpm"]
+[ext_resource type="PackedScene" uid="uid://clx26fqmxjrbd" path="res://Scenes/Buildings/Workbench.tscn" id="4_m2tn3"]
+
+[resource]
+script = ExtResource("2_crxvh")
+building_name = "Workbench"
+category = "Production"
+icon = ExtResource("2_vvmpm")
+scene = ExtResource("4_m2tn3")
+cost = Dictionary[ExtResource("1_vj0t6"), int]({
+ExtResource("2_jl4wg"): 16
+})
+metadata/_custom_type_script = "uid://bg164elkow3gd"

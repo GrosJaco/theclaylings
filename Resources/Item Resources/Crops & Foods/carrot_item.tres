@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://ddqdbes0kbqwr"]
+
+[ext_resource type="Texture2D" uid="uid://b3guxxjkd3lso" path="res://Art/Crops.png" id="1_gq6i1"]
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="2_n18qq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q73bv"]
+atlas = ExtResource("1_gq6i1")
+region = Rect2(0, 0, 16, 16)
+
+[resource]
+script = ExtResource("2_n18qq")
+name = "carrot"
+display_name = "Carrot"
+icon = SubResource("AtlasTexture_q73bv")
+stack_size = 99
+metadata/_custom_type_script = "uid://bd2ixn7bdlbcp"

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3 uid="uid://dehni7xo7sjw1"]
+
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_w62sp"]
+[ext_resource type="Script" uid="uid://bg164elkow3gd" path="res://Scripts/Data/BuildingData.gd" id="2_gjxbt"]
+[ext_resource type="Resource" uid="uid://c87fiysb531ll" path="res://Resources/Item Resources/Raw/wood.tres" id="2_wl6vo"]
+[ext_resource type="Texture2D" uid="uid://c021mqg2lm1mg" path="res://Art/Buildings/Stump.png" id="3_di4c1"]
+[ext_resource type="PackedScene" uid="uid://d3rl72y6kymln" path="res://Scenes/Buildings/ChoppingBlock.tscn" id="3_qfed7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_26wmb"]
+atlas = ExtResource("3_di4c1")
+region = Rect2(0, 16, 16, 16)
+
+[resource]
+script = ExtResource("2_gjxbt")
+building_name = "Chopping Block"
+category = "Production"
+icon = SubResource("AtlasTexture_26wmb")
+scene = ExtResource("3_qfed7")
+cost = Dictionary[ExtResource("1_w62sp"), int]({
+ExtResource("2_wl6vo"): 1
+})
+metadata/_custom_type_script = "uid://bg164elkow3gd"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FuelInput" format=3 uid="uid://bx7ff0us50hfr"]
+
+[ext_resource type="Script" uid="uid://dxdv24kryr4dt" path="res://Scripts/Miscellanious/fuel_input.gd" id="1_smqi3"]
+[ext_resource type="Resource" uid="uid://c87fiysb531ll" path="res://Resources/Item Resources/Raw/wood.tres" id="1_t6fc4"]
+
+[resource]
+script = ExtResource("1_smqi3")
+item = ExtResource("1_t6fc4")
+burn_time = 20.0
+metadata/_custom_type_script = "uid://dxdv24kryr4dt"

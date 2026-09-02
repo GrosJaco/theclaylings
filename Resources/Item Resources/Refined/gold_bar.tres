@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://caxdqngluglyc"]
+
+[ext_resource type="Texture2D" uid="uid://deddaqcmm5hut" path="res://Art/Items.png" id="1_8o6kd"]
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="2_mjx0j"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ot3bn"]
+atlas = ExtResource("1_8o6kd")
+region = Rect2(0, 96, 16, 16)
+
+[resource]
+script = ExtResource("2_mjx0j")
+name = "gold_bar"
+display_name = "Gold bar"
+icon = SubResource("AtlasTexture_ot3bn")
+stack_size = 99
+metadata/_custom_type_script = "uid://bd2ixn7bdlbcp"

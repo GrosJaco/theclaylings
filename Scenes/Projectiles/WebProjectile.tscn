@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://webprjct002"]
+
+[ext_resource type="Script" uid="uid://b70uv0furrnd" path="res://Scripts/Projectiles/web_projectile.gd" id="1_web_script"]
+[ext_resource type="Texture2D" uid="uid://bf8x4j5is46bx" path="res://Art/Enemies/PurpleSpider.png" id="2_purple_tex"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_web_0"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(0, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_web_1"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(32, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_web_2"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(64, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_web_3"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(96, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_web_4"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(128, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_web_5"]
+atlas = ExtResource("2_purple_tex")
+region = Rect2(160, 224, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_web"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_web_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_web_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_web_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_web_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_web_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_web_5")
+}],
+"loop": false,
+"name": &"fly",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_web"]
+radius = 6.0
+
+[node name="WebProjectile" type="Area2D" unique_id=1182601738]
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("1_web_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=625217460]
+position = Vector2(0, -5)
+sprite_frames = SubResource("SpriteFrames_web")
+animation = &"fly"
+autoplay = "fly"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=282573891]
+shape = SubResource("CircleShape2D_web")

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dn8o50e2mvngx"]
+
+[ext_resource type="PackedScene" uid="uid://xlylewo8sqtu" path="res://Scenes/Buildings/BaseTree.tscn" id="1_mos2k"]
+[ext_resource type="Texture2D" uid="uid://bp381d2uhunyy" path="res://Art/Trees.png" id="2_bwctu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdbfm"]
+atlas = ExtResource("2_bwctu")
+region = Rect2(16, 0, 16, 48)
+
+[node name="BaseTree" instance=ExtResource("1_mos2k")]
+
+[node name="SpriteRoot" parent="." index="0"]
+position = Vector2(-8, -16)
+
+[node name="Sprite2D" parent="SpriteRoot" index="0"]
+position = Vector2(8, 8)
+texture = SubResource("AtlasTexture_kdbfm")

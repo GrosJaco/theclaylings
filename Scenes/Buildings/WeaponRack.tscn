@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://b886e3ctgifxk"]
+
+[ext_resource type="Texture2D" uid="uid://haas0lsl470k" path="res://Art/Buildings/Weapon Rack.png" id="1_pfx2m"]
+[ext_resource type="Script" uid="uid://b8lra8n25i74n" path="res://Scripts/Buildings/weapon_rack.gd" id="1_rs5gm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_to4n3"]
+atlas = ExtResource("1_pfx2m")
+region = Rect2(0, 0, 32, 32)
+
+[node name="Weapon Rack" type="Node2D"]
+script = ExtResource("1_rs5gm")
+building_type = "building"
+size_in_tiles = Vector2i(2, 2)
+
+[node name="InteractionPoint" type="Node2D" parent="."]
+position = Vector2(0, -7)
+
+[node name="SpriteRoot" type="Node2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteRoot"]
+texture = SubResource("AtlasTexture_to4n3")
+
+[node name="Slot 1" type="Node2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="Item Sprite 1" type="Sprite2D" parent="Slot 1"]
+
+[node name="Item Sprite 2" type="Sprite2D" parent="Slot 1"]
+
+[node name="Item Sprite 3" type="Sprite2D" parent="Slot 1"]
+
+[node name="Slot 2" type="Node2D" parent="."]
+position = Vector2(8, -16)
+
+[node name="Item Sprite 1" type="Sprite2D" parent="Slot 2"]
+
+[node name="Item Sprite 2" type="Sprite2D" parent="Slot 2"]
+
+[node name="Item Sprite 3" type="Sprite2D" parent="Slot 2"]
+
+[node name="Slot 3" type="Node2D" parent="."]
+position = Vector2(16, -16)
+
+[node name="Item Sprite 1" type="Sprite2D" parent="Slot 3"]
+
+[node name="Item Sprite 2" type="Sprite2D" parent="Slot 3"]
+
+[node name="Item Sprite 3" type="Sprite2D" parent="Slot 3"]
