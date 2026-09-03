@@ -3,6 +3,10 @@
 /android/
 *.tmp
 
+# Art folderts
+Art/
+Audio/
+
 # AI Agent instruction and configuration files for testing and debugging
 AGENTS.md
 CLAUDE.md

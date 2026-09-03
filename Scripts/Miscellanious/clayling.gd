@@ -135,9 +135,17 @@ func _update_sprite_offset_for_animation(anim_name: String) -> void:
 	elif anim_name.begins_with("spearman_to_combat_stance") or anim_name.begins_with("spearman_combat_stance"):
 		offset_sprite(8, 8)            
 	elif anim_name.begins_with("spearman_attacking") or anim_name.begins_with("spearman_dying"):
-		offset_sprite(24, 8)                                                                      
+		offset_sprite(24, 8)              
+	elif anim_name.begins_with("spearman_running"):
+		offset_sprite(0, -16)
+	elif anim_name.begins_with("spearman_idle"):
+		offset_sprite(0, -8)
+	elif anim_name in ["woodcutting_side", "mining_side", "harvesting_side", "watering_side"]:
+		offset_sprite(8, 0)
+	elif anim_name == "interacting_up":
+		offset_sprite(0, -8)
 	else:
-		offset_sprite(0, 0)      
+		offset_sprite(0, 0)           
 
 func set_flip_h(flipped: bool) -> void:
 	sprite.flip_h = flipped

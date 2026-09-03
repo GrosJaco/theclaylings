@@ -1,6 +1,10 @@
 extends CharacterBody2D
 class_name Enemy
 
+# ========== SIGNALS ==========
+
+signal enemy_died(enemy: Enemy)
+
 # ========== EXPORTED VARIABLES ==========
 
 @export var enemy_name: String = "Enemy"
@@ -21,7 +25,10 @@ var health: float = 50.0
 var is_dead: bool = false
 var current_target: Node2D = null
 
-var state: String = "idle" # "idle", "wander", "chase", "attack", "death"
+var state: String = "idle" # "idle", "wander", "chase", "attack", "assault", "death"
+var assault_target: Vector2 = Vector2.ZERO
+var has_assault_target: bool = false
+
 var _state_timer: float = 0.0
 var _attack_cooldown_timer: float = 0.0
 var _spawn_pos: Vector2 = Vector2.ZERO
@@ -47,9 +54,19 @@ func _ready() -> void:
 	collision_mask = 2 # Walls layer only
 	
 	health = max_health
-	_spawn_pos = global_position
+	_spawn_pos = assault_target if has_assault_target else global_position
 	_scan_timer = randf_range(0.0, 0.2) # Jitter initial scan
-	_enter_idle()
+	if has_assault_target:
+		call_deferred("_enter_assault")
+	else:
+		_enter_idle()
+
+func set_assault_target(target_pos: Vector2) -> void:
+	assault_target = target_pos
+	has_assault_target = true
+	_spawn_pos = target_pos
+	if is_inside_tree() and state != "attack" and state != "chase":
+		_enter_assault()
 
 func _physics_process(delta: float) -> void:
 	if is_dead:
@@ -74,15 +91,26 @@ func _physics_process(delta: float) -> void:
 			_process_chase(delta)
 		"attack":
 			_process_attack(delta)
+		"assault":
+			_process_assault(delta)
 
 	move_and_slide()
 
 # ---------- TARGET ACQUISITION ----------
 
+func _is_target_invalid(target: Node2D) -> bool:
+	if target == null or not is_instance_valid(target):
+		return true
+	if target.get("is_dead"):
+		return true
+	if target is Building and target.current_health <= 0:
+		return true
+	return false
+
 func _evaluate_target() -> void:
 	# Verify existing target validity
 	if current_target and is_instance_valid(current_target):
-		if current_target.get("is_dead"):
+		if _is_target_invalid(current_target):
 			current_target = null
 		else:
 			var max_aggro_sq = (aggro_range * 1.5) * (aggro_range * 1.5)
@@ -91,9 +119,20 @@ func _evaluate_target() -> void:
 
 	# Search for new target if none
 	if current_target == null or not is_instance_valid(current_target):
-		current_target = _find_closest_clayling()
+		current_target = _find_closest_target()
 		if current_target and state != "attack":
 			_enter_chase()
+
+func _find_closest_target() -> Node2D:
+	var closest_clayling = _find_closest_clayling()
+	if closest_clayling:
+		return closest_clayling
+
+	# If in assault mode, target nearby colony buildings if no claylings in sight
+	if has_assault_target or state == "assault":
+		return _find_closest_building()
+
+	return null
 
 func _find_closest_clayling() -> Node2D:
 	var claylings = get_tree().get_nodes_in_group("claylings")
@@ -106,6 +145,28 @@ func _find_closest_clayling() -> Node2D:
 		var d_sq = global_position.distance_squared_to(c.global_position)
 		if d_sq <= closest_dist_sq:
 			closest = c
+			closest_dist_sq = d_sq
+
+	return closest
+
+func _find_closest_building() -> Node2D:
+	var closest: Node2D = null
+	var closest_dist_sq: float = aggro_range * aggro_range
+
+	for s in get_tree().get_nodes_in_group("storage"):
+		if not is_instance_valid(s) or s.get("is_preview"):
+			continue
+		var d_sq = global_position.distance_squared_to(s.global_position)
+		if d_sq <= closest_dist_sq:
+			closest = s
+			closest_dist_sq = d_sq
+
+	for b in get_tree().get_nodes_in_group("crafting_buildings"):
+		if not is_instance_valid(b) or b.get("is_preview") or b is Blueprint:
+			continue
+		var d_sq = global_position.distance_squared_to(b.global_position)
+		if d_sq <= closest_dist_sq:
+			closest = b
 			closest_dist_sq = d_sq
 
 	return closest
@@ -150,15 +211,56 @@ func _process_wander(delta: float) -> void:
 	else:
 		_stuck_timer = 0.0
 
+func _enter_assault() -> void:
+	state = "assault"
+	_stuck_timer = 0.0
+	if agent:
+		agent.target_position = assault_target
+	_play_animation("run")
+
+func _process_assault(delta: float) -> void:
+	# Arrived near assault target or navigation path completed
+	if agent.is_navigation_finished() or global_position.distance_to(assault_target) < 32.0:
+		_spawn_pos = global_position
+		has_assault_target = false
+		_enter_wander()
+		return
+
+	# Re-sync target if destination changed
+	if agent.target_position.distance_squared_to(assault_target) > 256.0:
+		agent.target_position = assault_target
+
+	if not agent.is_navigation_finished():
+		var next_pos = agent.get_next_path_position()
+		var dir = global_position.direction_to(next_pos)
+		velocity = dir * speed
+		_update_direction(dir)
+
+		# Anti-stuck watchdog during assault
+		if get_real_velocity().length() < 3.0:
+			_stuck_timer += delta
+			if _stuck_timer >= 2.0:
+				_stuck_timer = 0.0
+				var detour = assault_target + Vector2(randf_range(-48.0, 48.0), randf_range(-48.0, 48.0))
+				agent.target_position = detour
+		else:
+			_stuck_timer = max(0.0, _stuck_timer - delta * 0.5)
+	else:
+		velocity = Vector2.ZERO
+		_play_animation("idle")
+
 func _enter_chase() -> void:
 	state = "chase"
 	_stuck_timer = 0.0
 	_play_animation("run")
 
 func _process_chase(delta: float) -> void:
-	if current_target == null or not is_instance_valid(current_target) or current_target.get("is_dead"):
+	if _is_target_invalid(current_target):
 		current_target = null
-		_enter_idle()
+		if has_assault_target:
+			_enter_assault()
+		else:
+			_enter_idle()
 		return
 
 	var dist_sq = global_position.distance_squared_to(current_target.global_position)
@@ -191,7 +293,10 @@ func _process_chase(delta: float) -> void:
 			if _stuck_timer >= 2.0:
 				_stuck_timer = 0.0
 				current_target = null
-				_enter_wander()
+				if has_assault_target:
+					_enter_assault()
+				else:
+					_enter_wander()
 				return
 		else:
 			_stuck_timer = max(0.0, _stuck_timer - delta * 0.5)
@@ -229,13 +334,16 @@ func _process_attack(delta: float) -> void:
 
 	if _state_timer >= anim_length:
 		_attack_cooldown_timer = attack_cooldown
-		if current_target and is_instance_valid(current_target) and not current_target.get("is_dead"):
+		if current_target and is_instance_valid(current_target) and not _is_target_invalid(current_target):
 			_enter_chase()
 		else:
-			_enter_idle()
+			if has_assault_target:
+				_enter_assault()
+			else:
+				_enter_idle()
 
 func _execute_attack() -> void:
-	if current_target == null or not is_instance_valid(current_target) or current_target.get("is_dead"):
+	if _is_target_invalid(current_target):
 		return
 
 	_face_position(current_target.global_position)
@@ -243,7 +351,9 @@ func _execute_attack() -> void:
 	if attack_type == "melee":
 		var dist = global_position.distance_to(current_target.global_position)
 		if dist <= attack_range + 24.0:
-			if current_target.has_method("take_damage"):
+			if current_target is Building:
+				current_target.take_damage(int(attack_damage))
+			elif current_target.has_method("take_damage"):
 				current_target.take_damage(attack_damage, self)
 	elif attack_type == "ranged":
 		if projectile_scene:
@@ -291,7 +401,7 @@ func _face_position(target_pos: Vector2) -> void:
 
 # ---------- DAMAGE & DEATH ----------
 
-func take_damage(amount: float) -> void:
+func take_damage(amount: float, attacker: Node2D = null) -> void:
 	if is_dead:
 		return
 
@@ -303,8 +413,12 @@ func take_damage(amount: float) -> void:
 	hit_tween.tween_interval(0.07)
 	hit_tween.tween_callback(func(): modulate = Color.WHITE)
 
-	# If idle or wandering, alert and focus on attacker
-	if state == "idle" or state == "wander":
+	# If attacker provided, retaliate directly; otherwise scan nearby targets
+	if attacker and is_instance_valid(attacker) and not _is_target_invalid(attacker):
+		current_target = attacker
+		if state != "attack":
+			_enter_chase()
+	elif state == "idle" or state == "wander" or state == "assault":
 		_evaluate_target()
 
 	if health <= 0.0:
@@ -317,6 +431,7 @@ func die() -> void:
 	state = "death"
 	velocity = Vector2.ZERO
 
+	enemy_died.emit(self)
 	remove_from_group("enemies")
 	remove_from_group("threats")
 

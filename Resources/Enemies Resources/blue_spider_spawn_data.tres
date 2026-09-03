@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EnemySpawnData" format=3 uid="uid://d2dt6bb3mjlad"]
+
+[ext_resource type="Script" uid="uid://civhgkjhpq0pu" path="res://Scripts/Data/EnemySpawnData.gd" id="1_flye2"]
+[ext_resource type="PackedScene" uid="uid://bluespider001" path="res://Scenes/Enemies/BlueSpider.tscn" id="1_q5ucj"]
+
+[resource]
+script = ExtResource("1_flye2")
+scene = ExtResource("1_q5ucj")
+point_cost = 3
+metadata/_custom_type_script = "uid://civhgkjhpq0pu"

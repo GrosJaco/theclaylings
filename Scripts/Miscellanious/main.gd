@@ -704,6 +704,11 @@ func debug_kill_all_claylings() -> void:
 		if is_instance_valid(c) and c.has_method("die"):
 			c.die()
 
+func debug_trigger_next_wave() -> void:
+	var wm = get_tree().get_first_node_in_group("wave_manager")
+	if wm and wm.has_method("trigger_next_wave"):
+		wm.trigger_next_wave()
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_C:
@@ -724,6 +729,8 @@ func _input(event: InputEvent) -> void:
 			spawn_enemy(get_global_mouse_position(), "blue_spider")
 		if event.keycode == KEY_V:
 			spawn_enemy(get_global_mouse_position(), "purple_spider")
+		if event.keycode == KEY_L:
+			debug_trigger_next_wave()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:

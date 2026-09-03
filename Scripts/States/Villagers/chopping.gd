@@ -56,6 +56,8 @@ func exit() -> void:
 	target_tree = null
 	current_timer = 0.0
 	_hit_pending = true
+	clayling.play_forced_animation("")
+	clayling.offset_sprite(0, 0)
 	
 # ========== HELPERS ==========
 

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemySpawnData" format=3 uid="uid://c2625pr7h5arp"]
+
+[ext_resource type="PackedScene" uid="uid://dv3mdcmx5866w" path="res://Scenes/Enemies/PurpleSpider.tscn" id="1_uqnqj"]
+[ext_resource type="Script" uid="uid://civhgkjhpq0pu" path="res://Scripts/Data/EnemySpawnData.gd" id="2_nov1y"]
+
+[resource]
+script = ExtResource("2_nov1y")
+enemy_name = "Purple Spider"
+scene = ExtResource("1_uqnqj")
+point_cost = 4
+min_wave = 3
+selection_weight = 0.5
+metadata/_custom_type_script = "uid://civhgkjhpq0pu"
