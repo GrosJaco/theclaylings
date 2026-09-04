@@ -219,8 +219,12 @@ func _get_edge_spawn_point(direction: String) -> Vector2:
 	var angle = randf() * TAU
 	return center + Vector2(cos(angle), sin(angle)) * 600.0
 
-# TODO UPDATE THIS WHEN CENTRAL CRYSTAL IS ADDED
 func _get_colony_center() -> Vector2:
+	var crystals = get_tree().get_nodes_in_group("crystal")
+	for c in crystals:
+		if is_instance_valid(c) and not c.get("is_preview") and not c.get("_is_destroyed") and ("current_health" not in c or c.current_health > 0):
+			return c.global_position
+
 	var storages = get_tree().get_nodes_in_group("storage")
 	for s in storages:
 		if is_instance_valid(s):

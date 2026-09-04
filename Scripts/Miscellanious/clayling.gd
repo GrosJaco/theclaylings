@@ -425,11 +425,11 @@ func find_threat_to_assist(assist_range: float = 70.0) -> Node2D:
 # ---------- IDENTITY & NEEDS LOGIC ----------
 
 func _generate_identity() -> void:
-	var first_names = ["Natasha", "Maxime", "Clément", "Achille", "Mathis", "Gabriel", "Gamelle", 
+	var first_names = ["Natasha", "Maxime", "Clément", "Achille", "Mathis", "Gabriel", "Gamelle", "Godin", "Cyprien", 
 					"Joe", "Mauer", 
 					"Romain", "Mathieu", "Louis", 
 					"Pedro", "Filipe", "Tiago", "Enzo", "Rodriguo", 
-					"João", "Rafael", "Matthias", "Samuel", "Barth", "Bastien"]
+					"João", "Rafael", "Matthias", "Samuel", "Barth", "Bastien", "Alexandre", "Aurélien", "Fabian", "Joachim"]
 	
 	clayling_name = first_names.pick_random()
 	age = randi_range(18, 65)

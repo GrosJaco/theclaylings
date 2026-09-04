@@ -18,11 +18,13 @@ func _on_hit(target: Node2D) -> void:
 		queue_free()
 		return
 
-	# Apply damage
-	if target.has_method("take_damage"):
+	# Apply damage to buildings or entities
+	if target is Building:
+		target.take_damage(int(damage))
+	elif target.has_method("take_damage"):
 		target.take_damage(damage, shooter)
 
-	# Apply web slow effect
+	# Apply web slow effect to entities that can be slowed
 	if target.has_method("apply_slow"):
 		target.apply_slow(slow_factor, slow_duration)
 

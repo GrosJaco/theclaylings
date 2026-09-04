@@ -19,8 +19,9 @@ var shooter: Node2D = null
 
 func _ready() -> void:
 	collision_layer = 0
-	collision_mask = 1 | 2 # Layer 1: Entities, Layer 2: Walls
+	collision_mask = 1 | 2 # Layer 1: Entities, Layer 2: Walls & Buildings
 	body_entered.connect(_on_body_entered)
+	area_entered.connect(_on_area_entered)
 
 func _physics_process(delta: float) -> void:
 	lifetime += delta
@@ -36,23 +37,46 @@ func set_target_direction(dir: Vector2) -> void:
 	rotation = direction.angle()
 
 func _on_body_entered(body: Node2D) -> void:
-	if not is_instance_valid(body) or body == shooter:
+	_handle_collision(body)
+
+func _on_area_entered(area: Area2D) -> void:
+	if not is_instance_valid(area):
+		return
+	var candidate = area.get_parent() if area.get_parent() else area
+	_handle_collision(candidate)
+
+func _handle_collision(node: Node2D) -> void:
+	if not is_instance_valid(node) or node == shooter:
 		return
 
-	# Check collision with valid targets first
-	if target_group != "" and body.is_in_group(target_group):
-		if body.get("is_dead"):
-			return
-		_on_hit(body)
+	if node.get("is_dead"):
 		return
+
+	# Target group match (e.g. claylings)
+	if target_group != "" and node.is_in_group(target_group):
+		_on_hit(node)
+		return
+
+	# Central crystal & colony buildings
+	if node.is_in_group("crystal") or node.is_in_group("central_crystal") or node is Building:
+		_on_hit(node)
+		return
+
+	# Check if shot by enemy and hits a valid non-enemy damageable target
+	if shooter and shooter.is_in_group("enemies"):
+		if not node.is_in_group("enemies") and node.has_method("take_damage"):
+			_on_hit(node)
+			return
 
 	# Check collision with walls (layer 2) only if not an entity
-	if "collision_layer" in body and (body.collision_layer & 2) != 0:
-		if not body.is_in_group("claylings") and not body.is_in_group("enemies"):
-			_on_hit_wall(body)
+	if "collision_layer" in node and (node.collision_layer & 2) != 0:
+		if not node.is_in_group("claylings") and not node.is_in_group("enemies"):
+			_on_hit_wall(node)
 
 func _on_hit(target: Node2D) -> void:
-	if target.has_method("take_damage"):
+	if target is Building:
+		target.take_damage(int(damage))
+	elif target.has_method("take_damage"):
 		target.take_damage(damage, shooter)
 	queue_free()
 

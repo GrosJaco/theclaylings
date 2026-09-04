@@ -113,7 +113,7 @@ func clearing_terrain():
 func generate_terrain():
 	clearing_terrain()
 	generate_all_ore_patches()
-	
+
 	for x in range(map_size.x):
 		for y in range(map_size.y):
 			var pos = Vector2i(x, y)

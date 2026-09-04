@@ -132,6 +132,11 @@ func _find_closest_target() -> Node2D:
 	if has_assault_target or state == "assault":
 		return _find_closest_building()
 
+	# If wandering near the crystal, aggro on it
+	var closest_building = _find_closest_building()
+	if closest_building and closest_building.is_in_group("crystal"):
+		return closest_building
+
 	return null
 
 func _find_closest_clayling() -> Node2D:
@@ -152,6 +157,14 @@ func _find_closest_clayling() -> Node2D:
 func _find_closest_building() -> Node2D:
 	var closest: Node2D = null
 	var closest_dist_sq: float = aggro_range * aggro_range
+
+	for c in get_tree().get_nodes_in_group("crystal"):
+		if not is_instance_valid(c) or c.get("is_preview") or c.get("_is_destroyed") or ("current_health" in c and c.current_health <= 0):
+			continue
+		var d_sq = global_position.distance_squared_to(c.global_position)
+		if d_sq <= closest_dist_sq:
+			closest = c
+			closest_dist_sq = d_sq
 
 	for s in get_tree().get_nodes_in_group("storage"):
 		if not is_instance_valid(s) or s.get("is_preview"):
@@ -358,7 +371,13 @@ func _execute_attack() -> void:
 	elif attack_type == "ranged":
 		if projectile_scene:
 			var proj = projectile_scene.instantiate()
-			var shoot_dir = (current_target.global_position - global_position).normalized()
+			var target_pos = current_target.global_position
+			if current_target is Building:
+				target_pos.y -= (current_target.size_in_tiles.y * 16.0) * 0.5
+			elif current_target.get_node_or_null("CollisionShape2D"):
+				target_pos = current_target.get_node("CollisionShape2D").global_position
+
+			var shoot_dir = (target_pos - global_position).normalized()
 			proj.global_position = global_position + shoot_dir * 8.0
 			proj.set_target_direction(shoot_dir)
 			proj.damage = attack_damage

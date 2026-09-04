@@ -163,7 +163,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"attack",
-"speed": 10.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -264,9 +264,9 @@ attack_cooldown = 1.2
 [node name="AnimatedSprite2D" parent="Pivot" parent_id_path=PackedInt32Array(1115730094) index="0" unique_id=29146748]
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_blue_spider")
-animation = &"run"
+animation = &"attack"
 autoplay = "idle"
-frame_progress = 0.46132585
+frame_progress = 0.20000082
 
 [node name="CollisionShape2D" parent="." index="1" unique_id=447004811]
 position = Vector2(0, -4)

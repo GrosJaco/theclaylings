@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://cq7pjnseuikr5"]
+
+[ext_resource type="Script" uid="uid://bv44irj6axa8f" path="res://Scripts/UI/crystal_placement_banner.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://c3dd5c3bgthql" path="res://Art/Fonts/ClaylingInfoFont.tres" id="2_theme"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_banner"]
+bg_color = Color(0.07, 0.08, 0.14, 0.88)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.78, 1, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 14.0
+expand_margin_top = 8.0
+expand_margin_right = 14.0
+expand_margin_bottom = 8.0
+
+[node name="CrystalPlacementBanner" type="Control" unique_id=746392015]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -220.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 80.0
+grow_horizontal = 2
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=184920371]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_banner")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=920381745]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="PanelContainer/VBoxContainer" unique_id=381920475]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "PLACE THE CRYSTAL"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="PanelContainer/VBoxContainer" unique_id=592018374]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.92, 0.98, 1)
+theme_override_font_sizes/font_size = 12
+text = "Choose a clear spot for your crystal; it'll be the center of your colony"
+horizontal_alignment = 1
+vertical_alignment = 1

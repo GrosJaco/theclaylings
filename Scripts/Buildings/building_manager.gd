@@ -1,5 +1,9 @@
 extends Node2D
 
+# ========== SIGNALS ==========
+
+signal initial_crystal_placed(crystal_node: Node2D)
+
 # ========== REFERENCES ==========
 
 @onready var world: Node2D = $".."
@@ -23,6 +27,9 @@ var current_build_texture: Texture2D = null
 
 # ---------- BUILDINGS ----------
 
+@export var crystal_scene: PackedScene = preload("res://Scenes/Buildings/Crystal.tscn")
+var is_mandatory_placement: bool = false
+
 @export var soil_tile_scene: PackedScene = preload("res://Scenes/Buildings/SoilTile.tscn")
 
 var storage_building_scene: PackedScene = preload("res://Scenes/Buildings/StorageBuilding.tscn")
@@ -38,10 +45,24 @@ var forge_scene: PackedScene = preload("res://Scenes/Buildings/Forge.tscn")
 
 func _ready() -> void:
 	add_to_group("building_manager")
+	call_deferred("_check_initial_crystal")
+
+func _check_initial_crystal() -> void:
+	var existing = get_tree().get_nodes_in_group("crystal")
+	if existing.is_empty() and crystal_scene:
+		start_initial_crystal_placement()
+
+func start_initial_crystal_placement() -> void:
+	is_mandatory_placement = true
+	start_preview(crystal_scene)
 
 # ---------- INPUT ----------
 
 func _input(event):
+	# If mandatory initial crystal placement, block other building hotkeys
+	if is_mandatory_placement and event is InputEventKey and event.pressed:
+		return
+
 	# Key bindings for building selection
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_A:
@@ -71,8 +92,9 @@ func _input(event):
 				confirm_placement()
 				get_viewport().set_input_as_handled()
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
-			cancel_preview()
-			get_viewport().set_input_as_handled()
+			if not is_mandatory_placement:
+				cancel_preview()
+				get_viewport().set_input_as_handled()
 
 # ---------- PREVIEW ----------
 
@@ -81,12 +103,10 @@ func start_preview(scene: PackedScene, cost: Dictionary = {}):
 	current_preview_scene = scene
 	current_build_cost = cost
 	preview_instance = scene.instantiate()
-	add_child(preview_instance)
-	preview_instance.modulate = Color(1, 1, 1, 0.5)
-	
 	if "is_preview" in preview_instance:
 		preview_instance.is_preview = true
-		
+	add_child(preview_instance)
+	preview_instance.modulate = Color(1, 1, 1, 0.5)
 	is_previewing = true
 
 func _process(_delta):
@@ -121,7 +141,12 @@ func _update_preview_under_mouse():
 			preview_tiles.append(top_left_tile + Vector2i(x, y))
 	
 	preview_can_place = true
+	var terrain = world.get_node_or_null("Terrain") if world else null
 	for t in preview_tiles:
+		if terrain and "map_size" in terrain:
+			if t.x < 1 or t.x >= terrain.map_size.x - 1 or t.y < 1 or t.y >= terrain.map_size.y - 1:
+				preview_can_place = false
+				break
 		if t in used_tiles:
 			preview_can_place = false
 			break
@@ -181,9 +206,19 @@ func confirm_placement():
 		if t not in used_tiles:
 			used_tiles.append(t)
 
+	var was_mandatory = is_mandatory_placement
+	is_mandatory_placement = false
+
 	cancel_preview()
 
+	if was_mandatory:
+		placed.add_to_group("crystal")
+		placed.add_to_group("central_crystal")
+		initial_crystal_placed.emit(placed)
+
 func cancel_preview():
+	if is_mandatory_placement:
+		return
 	if preview_instance:
 		preview_instance.queue_free()
 	preview_instance = null

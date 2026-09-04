@@ -26,8 +26,16 @@ var _has_announced_today: bool = false
 
 func _ready() -> void:
 	add_to_group("day_night_cycle")
+	if color_over_time:
+		color = color_over_time.sample(time_of_day)
 
 func _process(delta: float) -> void:
+	# Wait for the central crystal to be placed before advancing time
+	if not _has_placed_crystal():
+		if color_over_time:
+			color = color_over_time.sample(time_of_day)
+		return
+
 	var previous_time = time_of_day
 	time_of_day = fmod(time_of_day + delta / day_duration, 1.0)
 	
@@ -48,6 +56,13 @@ func _process(delta: float) -> void:
 	if not _has_announced_today and time_of_day >= announce_hour:
 		_has_announced_today = true
 		new_day_announced.emit(current_day)
+
+func _has_placed_crystal() -> bool:
+	var crystals = get_tree().get_nodes_in_group("crystal")
+	for c in crystals:
+		if is_instance_valid(c) and not c.get("is_preview") and not c.get("_is_destroyed"):
+			return true
+	return false
 
 func is_night() -> bool:
 	return time_of_day >= night_start or time_of_day < night_end
