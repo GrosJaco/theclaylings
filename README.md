@@ -77,3 +77,8 @@ A Godot 4.6 2D colony simulation and real-time strategy (RTS) defense game where
 2. Open the Godot Project Manager.
 3. Click **Import** and select the `project.godot` file in this directory.
 4. Open the project and press **F5** (or Run) to play the main level (`Scenes/main.tscn`).
+
+## License & Credits
+
+- The **source code** is licensed under the [MIT License](LICENSE).
+- All **art, audio, and font assets** belong to their respective creators and are subject to their own licenses and permissions. See [CREDITS.md](CREDITS.md) for full attribution.
