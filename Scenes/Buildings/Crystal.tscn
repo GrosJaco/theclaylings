@@ -29,6 +29,7 @@ bg_color = Color(1, 0.2, 0.2, 1)
 [node name="Crystal" type="Node2D" unique_id=673411406]
 y_sort_enabled = true
 script = ExtResource("1_script")
+size_in_tiles = Vector2i(3, 3)
 
 [node name="SpriteRoot" type="Node2D" parent="." unique_id=1334354039]
 position = Vector2(0, -24)
