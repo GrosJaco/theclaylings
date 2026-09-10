@@ -49,6 +49,8 @@
 [ext_resource type="Resource" uid="uid://c2625pr7h5arp" path="res://Resources/Enemies Resources/purple_spider_spawn_data.tres" id="44_v2nl5"]
 [ext_resource type="PackedScene" uid="uid://dft2ui8m4k01" path="res://Scenes/UI/DefeatUI.tscn" id="48_defeat"]
 [ext_resource type="PackedScene" uid="uid://cq7pjnseuikr5" path="res://Scenes/UI/CrystalPlacementBanner.tscn" id="49_banner"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/TimeSpeedUI.tscn" id="50_timespeed"]
+[ext_resource type="Script" uid="uid://vnqv3ae1adb5" path="res://Scripts/UI/hud_controller.gd" id="51_hud"]
 
 [sub_resource type="Gradient" id="Gradient_r33sp"]
 offsets = PackedFloat32Array(0.15, 0.25, 0.35, 0.65, 0.75, 0.85)
@@ -1105,6 +1107,7 @@ color_over_time = SubResource("Gradient_r33sp")
 time_of_day = 0.33
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=528902149]
+script = ExtResource("51_hud")
 
 [node name="InventoryUI" type="Control" parent="CanvasLayer" unique_id=959480218]
 layout_mode = 3
@@ -1383,6 +1386,10 @@ texture_pressed = SubResource("AtlasTexture_nwwfm")
 
 [node name="CrystalPlacementBanner" parent="CanvasLayer" unique_id=1280509563 instance=ExtResource("49_banner")]
 
+[node name="TimeSpeedUI" parent="CanvasLayer" unique_id=1285843064 instance=ExtResource("50_timespeed")]
+offset_left = -210.0
+offset_right = -60.0
+
 [node name="RTSController" type="Node2D" parent="." unique_id=892348123]
 z_index = 100
 script = ExtResource("27_rts")
@@ -1396,12 +1403,13 @@ rock_scenes = Array[PackedScene]([ExtResource("8_b3802")])
 copper_scenes = Array[PackedScene]([ExtResource("10_ee4r6")])
 iron_scenes = Array[PackedScene]([ExtResource("9_fevyy")])
 gold_scenes = Array[PackedScene]([ExtResource("15_gt3je")])
+terrain_seed = 1935759920
 walls_threshold = 0.3
 water_threshold = -0.3
 iron_patch_size = 20
 
 [node name="Ground" type="TileMapLayer" parent="Terrain" unique_id=2090967643]
-tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_21xkr")
 
 [node name="Crops" type="TileMapLayer" parent="Terrain" unique_id=592631820]

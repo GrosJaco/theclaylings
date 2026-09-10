@@ -734,6 +734,12 @@ func _input(event: InputEvent) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		if building_manager and building_manager.is_mandatory_placement:
+			return
+		var defeat = get_tree().get_first_node_in_group("defeat_ui")
+		if defeat and defeat.get("_is_active"):
+			return
+
 		var mouse_pos = get_global_mouse_position()
 
 		# Check clicked regular villager (only if no soldier was clicked)

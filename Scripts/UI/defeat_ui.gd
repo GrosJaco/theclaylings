@@ -1,7 +1,9 @@
 extends Control
 class_name DefeatUI
 
-# ========== REFERENCES ==========
+# ========== SIGNALS ==========
+
+signal defeat_shown
 
 @onready var dark_overlay: ColorRect = $DarkOverlay
 @onready var title_label: Label = $VBoxContainer/TitleLabel
@@ -44,6 +46,8 @@ func show_defeat() -> void:
 	if _is_active:
 		return
 	_is_active = true
+
+	defeat_shown.emit()
 
 	visible = true
 	modulate.a = 0.0
