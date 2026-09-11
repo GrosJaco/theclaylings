@@ -72,6 +72,19 @@ var crops_dic : Dictionary
 # Export dictionary for every type of tile/crop
 @export var custom_tile : Dictionary[String, TileCustomData]
 
+# ---------- HOVER & HIGHLIGHT ----------
+
+signal hovered_entity_changed(entity: Node2D)
+
+var _outline_shader: Shader = preload("res://Shaders/outline.gdshader")
+var _outline_material: ShaderMaterial = null
+var _hovered_entity: Node2D = null
+var _hovered_sprite: CanvasItem = null
+var _previous_material: Material = null
+var _last_mouse_pos: Vector2 = Vector2(-99999, -99999)
+var _hover_refresh_timer: float = 0.0
+var _sprite_cache: Dictionary = {}
+
 # ========== FUNCTIONS ==========
 
 # ---------- CLAYLINGS ----------
@@ -677,6 +690,12 @@ func _on_build_menu_start_building(data):
 func _ready():
 	add_to_group("main")
 
+	if _outline_shader:
+		_outline_material = ShaderMaterial.new()
+		_outline_material.shader = _outline_shader
+		_outline_material.set_shader_parameter("line_color", Color(1.0, 1.0, 1.0, 1.0))
+		_outline_material.set_shader_parameter("line_thickness", 1.0)
+
 	var build_menu = get_node_or_null("CanvasLayer/BuildMenu")
 	if build_menu:
 		build_menu.start_building.connect(_on_build_menu_start_building)
@@ -745,7 +764,44 @@ func _input(event: InputEvent) -> void:
 		if event.keycode == KEY_L:
 			debug_trigger_next_wave()
 
+var _tab_clayling_index: int = -1
+
+func cycle_next_clayling(reverse: bool = false) -> void:
+	var valid_claylings: Array[CharacterBody2D] = []
+	for c in active_claylings:
+		if is_instance_valid(c) and not c.is_dead:
+			valid_claylings.append(c)
+
+	if valid_claylings.is_empty():
+		return
+
+	if reverse:
+		_tab_clayling_index -= 1
+		if _tab_clayling_index < 0:
+			_tab_clayling_index = valid_claylings.size() - 1
+	else:
+		_tab_clayling_index = (_tab_clayling_index + 1) % valid_claylings.size()
+
+	var chosen = valid_claylings[_tab_clayling_index]
+
+	var camera = get_tree().get_first_node_in_group("camera")
+	if camera and camera.has_method("focus_on_position"):
+		camera.focus_on_position(chosen.global_position)
+
+	var clayling_ui = get_tree().get_first_node_in_group("clayling_info_panel")
+	if clayling_ui and clayling_ui.has_method("show_clayling"):
+		clayling_ui.show_clayling(chosen)
+
+	for c in valid_claylings:
+		c.set_selected(c == chosen)
+
 func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_TAB:
+			cycle_next_clayling(event.shift_pressed)
+			get_viewport().set_input_as_handled()
+			return
+
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		if building_manager and building_manager.is_mandatory_placement:
 			return
@@ -825,3 +881,175 @@ func _physics_process(delta: float) -> void:
 			elif duration > 0:
 				var index = custom_tile[crop_name].growth_index(duration)
 				set_tile(crop_name, pos, crops, index)
+
+func _process(delta: float) -> void:
+	_hover_refresh_timer += delta
+	var mouse_pos = get_global_mouse_position()
+	if mouse_pos != _last_mouse_pos or _hover_refresh_timer >= 0.1:
+		_hover_refresh_timer = 0.0
+		_last_mouse_pos = mouse_pos
+		_update_hover()
+
+func _exit_tree() -> void:
+	_clear_hover()
+
+# ---------- HOVER & HIGHLIGHT LOGIC (LIVING ENTITIES & GROUND ITEMS) ----------
+
+func get_hovered_entity() -> Node2D:
+	if is_instance_valid(_hovered_entity):
+		return _hovered_entity
+	return null
+
+func get_entity_info(node: Node2D) -> Dictionary:
+	if not is_instance_valid(node):
+		return {}
+	var entity_name := "Unknown"
+	if node is CharacterBody2D and node.is_in_group("claylings"):
+		entity_name = node.get("clayling_name") if node.get("clayling_name") else "Clayling"
+	elif node.is_in_group("threats") or node.is_in_group("enemies"):
+		entity_name = node.get("enemy_name") if node.get("enemy_name") else node.name
+	elif node.is_in_group("chicken") or node is Animal:
+		entity_name = "Chicken"
+	elif node is WorldItem:
+		var item_data: ItemData = node.data
+		if item_data:
+			entity_name = item_data.display_name if (item_data.display_name and not item_data.display_name.is_empty()) else item_data.name
+		else:
+			entity_name = "Item"
+	else:
+		entity_name = node.name
+	return {"name": entity_name}
+
+func _is_mouse_over_ui() -> bool:
+	var ctrl = get_viewport().gui_get_hovered_control()
+	if ctrl != null:
+		var tooltip = get_tree().get_first_node_in_group("world_tooltip")
+		if tooltip and (ctrl == tooltip or tooltip.is_ancestor_of(ctrl)):
+			return false
+		return true
+	if radial_menu and radial_menu.visible and radial_menu.is_mouse_over_menu():
+		return true
+	return false
+
+func _is_hover_suppressed() -> bool:
+	if _is_mouse_over_ui():
+		return true
+	if building_manager and (building_manager.is_previewing or building_manager.is_mandatory_placement):
+		return true
+	if rts_controller and (rts_controller.is_box_selecting or rts_controller.is_line_drawing):
+		return true
+	var defeat = get_tree().get_first_node_in_group("defeat_ui")
+	if defeat and defeat.get("_is_active"):
+		return true
+	for z in get_tree().get_nodes_in_group("harvest_zones"):
+		if is_instance_valid(z) and z.get("is_placing"):
+			return true
+	return false
+
+func _get_entity_sprite(node: Node) -> CanvasItem:
+	if not is_instance_valid(node):
+		return null
+	var cached = _sprite_cache.get(node)
+	if cached != null:
+		if is_instance_valid(cached):
+			return cached
+		_sprite_cache.erase(node)
+
+	var sprite: CanvasItem = null
+	if node.has_node("Pivot/AnimatedSprite2D"):
+		sprite = node.get_node("Pivot/AnimatedSprite2D") as CanvasItem
+	elif node.has_node("Sprite2D"):
+		sprite = node.get_node("Sprite2D") as CanvasItem
+	elif "sprite" in node and node.sprite is CanvasItem:
+		sprite = node.sprite
+
+	if sprite:
+		_sprite_cache[node] = sprite
+	return sprite
+
+func _is_point_in_entity(node: Node2D, mouse_world_pos: Vector2) -> bool:
+	if not is_instance_valid(node) or not node.is_inside_tree() or not node.visible:
+		return false
+	if node is CharacterBody2D:
+		var visual_center = node.global_position + Vector2(0, -6)
+		return visual_center.distance_squared_to(mouse_world_pos) <= 144.0
+	elif node is WorldItem:
+		return node.global_position.distance_squared_to(mouse_world_pos) <= 100.0
+	return node.global_position.distance_squared_to(mouse_world_pos) <= 144.0
+
+func _clear_hover() -> void:
+	if _hovered_sprite != null and is_instance_valid(_hovered_sprite):
+		_hovered_sprite.material = _previous_material
+	var had_hover = _hovered_entity != null
+	_hovered_entity = null
+	_hovered_sprite = null
+	_previous_material = null
+	if had_hover:
+		hovered_entity_changed.emit(null)
+
+func _set_hovered_entity(entity: Node2D) -> void:
+	if _hovered_entity == entity and is_instance_valid(_hovered_entity):
+		return
+
+	_clear_hover()
+
+	if entity == null or not is_instance_valid(entity):
+		return
+
+	var sprite = _get_entity_sprite(entity)
+	if sprite == null:
+		return
+
+	_hovered_entity = entity
+	_hovered_sprite = sprite
+	_previous_material = sprite.material
+	sprite.material = _outline_material
+	hovered_entity_changed.emit(_hovered_entity)
+
+func _update_hover() -> void:
+	if _is_hover_suppressed():
+		_clear_hover()
+		return
+
+	var mouse_pos = _last_mouse_pos
+	var chosen_entity: Node2D = null
+
+	# Priority 1: Living entities (Claylings, threats/enemies, chickens)
+	var hit_characters: Array = []
+	for c in active_claylings:
+		if is_instance_valid(c) and not c.get("is_dead"):
+			if _is_point_in_entity(c, mouse_pos):
+				hit_characters.append(c)
+
+	if hit_characters.is_empty():
+		for ch in get_tree().get_nodes_in_group("threats"):
+			if is_instance_valid(ch) and not ch.get("is_dead"):
+				if _is_point_in_entity(ch, mouse_pos):
+					hit_characters.append(ch)
+
+	if hit_characters.is_empty():
+		for ch in get_tree().get_nodes_in_group("chicken"):
+			if is_instance_valid(ch):
+				if _is_point_in_entity(ch, mouse_pos):
+					hit_characters.append(ch)
+
+	if not hit_characters.is_empty():
+		if hit_characters.size() > 1:
+			hit_characters.sort_custom(func(a, b): return a.global_position.y > b.global_position.y)
+		chosen_entity = hit_characters[0]
+
+	# Priority 2: Ground items
+	if chosen_entity == null:
+		var ground_items = get_tree().get_nodes_in_group("ground_items")
+		var hit_items: Array = []
+		for item in ground_items:
+			if is_instance_valid(item) and item.quantity > 0:
+				if _is_point_in_entity(item, mouse_pos):
+					hit_items.append(item)
+
+		if not hit_items.is_empty():
+			if hit_items.size() > 1:
+				hit_items.sort_custom(func(a, b): return a.global_position.distance_squared_to(mouse_pos) < b.global_position.distance_squared_to(mouse_pos))
+			chosen_entity = hit_items[0]
+
+	_set_hovered_entity(chosen_entity)

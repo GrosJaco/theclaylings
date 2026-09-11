@@ -45,6 +45,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 		hide_panel()
 		get_viewport().set_input_as_handled()
+	elif event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+		hide_panel()
+		get_viewport().set_input_as_handled()
 
 # ---------- PUBLIC API ----------
 

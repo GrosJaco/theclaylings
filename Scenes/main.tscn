@@ -55,6 +55,7 @@
 [ext_resource type="Texture2D" uid="uid://7lryyktm2wj5" path="res://Art/UI/UIIcons.png" id="52_uiicons"]
 [ext_resource type="Resource" uid="uid://slrba8fbdd3w" path="res://Resources/Building Resources/soil_tile.tres" id="53_soiltile"]
 [ext_resource type="Resource" uid="uid://1sujqiqusuy" path="res://Resources/Building Resources/oak_sapling.tres" id="54_oaksapling"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/WorldTooltip.tscn" id="55_tooltip"]
 
 [sub_resource type="Gradient" id="Gradient_r33sp"]
 offsets = PackedFloat32Array(0.15, 0.25, 0.35, 0.65, 0.75, 0.85)
@@ -106,54 +107,6 @@ region = Rect2(10, 0, 62, 44)
 atlas = ExtResource("12_jwpg7")
 region = Rect2(81, 23, 14, 3)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hpc6h"]
-atlas = ExtResource("11_1w6v2")
-region = Rect2(0, 16, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6vcvc"]
-atlas = ExtResource("10_u50mg")
-region = Rect2(2, 2, 44, 61)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7k868"]
-atlas = ExtResource("11_1w6v2")
-region = Rect2(0, 16, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_536cc"]
-atlas = ExtResource("13_ueoa1")
-region = Rect2(65, 1, 3, 3)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k2e45"]
-atlas = ExtResource("13_ueoa1")
-region = Rect2(74, 1, 3, 3)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_aqgau"]
-atlas = ExtResource("13_ueoa1")
-region = Rect2(70, 1, 2, 3)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kltya"]
-atlas = ExtResource("13_ueoa1")
-region = Rect2(6, 0, 4, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e08e2"]
-atlas = ExtResource("13_ueoa1")
-region = Rect2(23, 1, 2, 14)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_neg2b"]
-atlas = ExtResource("13_ueoa1")
-region = Rect2(6, 0, 4, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_r33sp"]
-atlas = ExtResource("13_ueoa1")
-region = Rect2(55, 1, 2, 14)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hdf80"]
-atlas = ExtResource("13_ueoa1")
-region = Rect2(6, 0, 4, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jwpg7"]
-atlas = ExtResource("13_ueoa1")
-region = Rect2(39, 1, 2, 14)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_8cuat"]
 atlas = ExtResource("6_pdsj5")
 region = Rect2(0, 0, 32, 32)
@@ -201,6 +154,54 @@ region = Rect2(0, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_icon_claylings"]
 atlas = ExtResource("52_uiicons")
 region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hpc6h"]
+atlas = ExtResource("11_1w6v2")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6vcvc"]
+atlas = ExtResource("10_u50mg")
+region = Rect2(2, 2, 44, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7k868"]
+atlas = ExtResource("11_1w6v2")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_536cc"]
+atlas = ExtResource("13_ueoa1")
+region = Rect2(65, 1, 3, 3)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k2e45"]
+atlas = ExtResource("13_ueoa1")
+region = Rect2(74, 1, 3, 3)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aqgau"]
+atlas = ExtResource("13_ueoa1")
+region = Rect2(70, 1, 2, 3)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kltya"]
+atlas = ExtResource("13_ueoa1")
+region = Rect2(6, 0, 4, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e08e2"]
+atlas = ExtResource("13_ueoa1")
+region = Rect2(23, 1, 2, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_neg2b"]
+atlas = ExtResource("13_ueoa1")
+region = Rect2(6, 0, 4, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r33sp"]
+atlas = ExtResource("13_ueoa1")
+region = Rect2(55, 1, 2, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hdf80"]
+atlas = ExtResource("13_ueoa1")
+region = Rect2(6, 0, 4, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jwpg7"]
+atlas = ExtResource("13_ueoa1")
+region = Rect2(39, 1, 2, 14)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_b3802"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -1227,107 +1228,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("14_k2e45")
 
-[node name="ClaylingInfoUI" type="Control" parent="CanvasLayer" unique_id=800028651]
-visible = false
-layout_mode = 3
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -447.99994
-offset_top = -263.99997
-offset_right = -403.99994
-offset_bottom = -211.99997
-grow_horizontal = 0
-grow_vertical = 2
-script = ExtResource("9_3pmx8")
-default_portrait = SubResource("AtlasTexture_hpc6h")
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/ClaylingInfoUI" unique_id=1429576120]
-position = Vector2(-7.6293945e-05, -45.00003)
-scale = Vector2(10, 10)
-texture = SubResource("AtlasTexture_6vcvc")
-offset = Vector2(22.000008, 30.500008)
-
-[node name="Portrait" type="TextureRect" parent="CanvasLayer/ClaylingInfoUI" unique_id=933074601]
-layout_mode = 0
-offset_left = 131.99994
-offset_top = 49.99997
-offset_right = 323.99994
-offset_bottom = 241.99997
-texture = SubResource("AtlasTexture_7k868")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ClaylingInfoUI" unique_id=1731287324]
-layout_mode = 0
-offset_left = 69.99994
-offset_top = 312.99994
-offset_right = 139.99994
-offset_bottom = 411.99994
-
-[node name="NameLabel" type="Label" parent="CanvasLayer/ClaylingInfoUI/VBoxContainer" unique_id=2036600983]
-z_index = 1
-layout_mode = 2
-theme = ExtResource("11_cbgmd")
-theme_override_colors/font_color = Color(0.24705882, 0.1882353, 0.3137255, 1)
-text = "Name"
-
-[node name="AgeLabel" type="Label" parent="CanvasLayer/ClaylingInfoUI/VBoxContainer" unique_id=663364572]
-layout_mode = 2
-theme = ExtResource("11_cbgmd")
-theme_override_colors/font_color = Color(0.24705882, 0.1882353, 0.3137255, 1)
-text = "Age"
-
-[node name="PersonalityLabel" type="Label" parent="CanvasLayer/ClaylingInfoUI/VBoxContainer" unique_id=1165403908]
-layout_mode = 2
-theme = ExtResource("11_cbgmd")
-theme_override_colors/font_color = Color(0.24705882, 0.1882353, 0.3137255, 1)
-text = "Trait
-"
-
-[node name="Health Icon" type="Sprite2D" parent="CanvasLayer/ClaylingInfoUI" unique_id=1119426262]
-position = Vector2(250.00006, 269.00003)
-scale = Vector2(10, 9.93)
-texture = SubResource("AtlasTexture_536cc")
-
-[node name="Hunger Icon" type="Sprite2D" parent="CanvasLayer/ClaylingInfoUI" unique_id=77853294]
-position = Vector2(299.99994, 268.9999)
-scale = Vector2(10, 9.93)
-texture = SubResource("AtlasTexture_k2e45")
-
-[node name="Energy Icon" type="Sprite2D" parent="CanvasLayer/ClaylingInfoUI" unique_id=908673122]
-position = Vector2(349.99982, 268.9999)
-scale = Vector2(10, 9.93)
-texture = SubResource("AtlasTexture_aqgau")
-
-[node name="BarsContainer" type="HBoxContainer" parent="CanvasLayer/ClaylingInfoUI" unique_id=556158254]
-layout_mode = 0
-offset_left = 229.99976
-offset_top = 293.9999
-offset_right = 245.99976
-offset_bottom = 309.9999
-scale = Vector2(10, 10)
-theme_override_constants/separation = 1
-
-[node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer/ClaylingInfoUI/BarsContainer" unique_id=464978676]
-layout_mode = 2
-fill_mode = 3
-texture_under = SubResource("AtlasTexture_kltya")
-texture_progress = SubResource("AtlasTexture_e08e2")
-texture_progress_offset = Vector2(1, 1)
-
-[node name="HungerBar" type="TextureProgressBar" parent="CanvasLayer/ClaylingInfoUI/BarsContainer" unique_id=1862095644]
-layout_mode = 2
-texture_under = SubResource("AtlasTexture_neg2b")
-texture_progress = SubResource("AtlasTexture_r33sp")
-texture_progress_offset = Vector2(1, 1)
-
-[node name="EnergyBar" type="TextureProgressBar" parent="CanvasLayer/ClaylingInfoUI/BarsContainer" unique_id=805630648]
-layout_mode = 2
-texture_under = SubResource("AtlasTexture_hdf80")
-texture_progress = SubResource("AtlasTexture_jwpg7")
-texture_progress_offset = Vector2(1, 1)
-
 [node name="BuildMenu" type="Control" parent="CanvasLayer" unique_id=1071837459]
 layout_mode = 3
 anchors_preset = 2
@@ -1470,9 +1370,9 @@ offset_top = -40.0
 offset_right = 123.0
 offset_bottom = -8.0
 grow_vertical = 0
-theme = ExtResource("11_cbgmd")
 tooltip_text = "Harvest Zone"
 focus_mode = 0
+theme = ExtResource("11_cbgmd")
 texture_normal = SubResource("AtlasTexture_kqrg6")
 texture_pressed = SubResource("AtlasTexture_nwwfm")
 
@@ -1561,6 +1461,109 @@ stretch_mode = 5
 offset_left = -210.0
 offset_right = -60.0
 
+[node name="ClaylingInfoUI" type="Control" parent="CanvasLayer" unique_id=800028651]
+visible = false
+layout_mode = 3
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -448.0
+offset_top = -263.99997
+offset_right = -404.0
+offset_bottom = -211.99997
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("9_3pmx8")
+default_portrait = SubResource("AtlasTexture_hpc6h")
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/ClaylingInfoUI" unique_id=1429576120]
+position = Vector2(-7.6293945e-05, -45.00003)
+scale = Vector2(10, 10)
+texture = SubResource("AtlasTexture_6vcvc")
+offset = Vector2(22.000008, 30.500008)
+
+[node name="Portrait" type="TextureRect" parent="CanvasLayer/ClaylingInfoUI" unique_id=933074601]
+layout_mode = 0
+offset_left = 131.99994
+offset_top = 49.99997
+offset_right = 323.99994
+offset_bottom = 241.99997
+texture = SubResource("AtlasTexture_7k868")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ClaylingInfoUI" unique_id=1731287324]
+layout_mode = 0
+offset_left = 69.99994
+offset_top = 312.99994
+offset_right = 139.99994
+offset_bottom = 411.99994
+
+[node name="NameLabel" type="Label" parent="CanvasLayer/ClaylingInfoUI/VBoxContainer" unique_id=2036600983]
+z_index = 1
+layout_mode = 2
+theme = ExtResource("11_cbgmd")
+theme_override_colors/font_color = Color(0.24705882, 0.1882353, 0.3137255, 1)
+text = "Name"
+
+[node name="AgeLabel" type="Label" parent="CanvasLayer/ClaylingInfoUI/VBoxContainer" unique_id=663364572]
+layout_mode = 2
+theme = ExtResource("11_cbgmd")
+theme_override_colors/font_color = Color(0.24705882, 0.1882353, 0.3137255, 1)
+text = "Age"
+
+[node name="PersonalityLabel" type="Label" parent="CanvasLayer/ClaylingInfoUI/VBoxContainer" unique_id=1165403908]
+layout_mode = 2
+theme = ExtResource("11_cbgmd")
+theme_override_colors/font_color = Color(0.24705882, 0.1882353, 0.3137255, 1)
+text = "Trait
+"
+
+[node name="Health Icon" type="Sprite2D" parent="CanvasLayer/ClaylingInfoUI" unique_id=1119426262]
+position = Vector2(250.00006, 269.00003)
+scale = Vector2(10, 9.93)
+texture = SubResource("AtlasTexture_536cc")
+
+[node name="Hunger Icon" type="Sprite2D" parent="CanvasLayer/ClaylingInfoUI" unique_id=77853294]
+position = Vector2(299.99994, 268.9999)
+scale = Vector2(10, 9.93)
+texture = SubResource("AtlasTexture_k2e45")
+
+[node name="Energy Icon" type="Sprite2D" parent="CanvasLayer/ClaylingInfoUI" unique_id=908673122]
+position = Vector2(349.99982, 268.9999)
+scale = Vector2(10, 9.93)
+texture = SubResource("AtlasTexture_aqgau")
+
+[node name="BarsContainer" type="HBoxContainer" parent="CanvasLayer/ClaylingInfoUI" unique_id=556158254]
+layout_mode = 0
+offset_left = 229.99976
+offset_top = 293.9999
+offset_right = 245.99976
+offset_bottom = 309.9999
+scale = Vector2(10, 10)
+theme_override_constants/separation = 1
+
+[node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer/ClaylingInfoUI/BarsContainer" unique_id=464978676]
+layout_mode = 2
+fill_mode = 3
+texture_under = SubResource("AtlasTexture_kltya")
+texture_progress = SubResource("AtlasTexture_e08e2")
+texture_progress_offset = Vector2(1, 1)
+
+[node name="HungerBar" type="TextureProgressBar" parent="CanvasLayer/ClaylingInfoUI/BarsContainer" unique_id=1862095644]
+layout_mode = 2
+texture_under = SubResource("AtlasTexture_neg2b")
+texture_progress = SubResource("AtlasTexture_r33sp")
+texture_progress_offset = Vector2(1, 1)
+
+[node name="EnergyBar" type="TextureProgressBar" parent="CanvasLayer/ClaylingInfoUI/BarsContainer" unique_id=805630648]
+layout_mode = 2
+texture_under = SubResource("AtlasTexture_hdf80")
+texture_progress = SubResource("AtlasTexture_jwpg7")
+texture_progress_offset = Vector2(1, 1)
+
+[node name="WorldTooltip" parent="CanvasLayer" unique_id=610226823 instance=ExtResource("55_tooltip")]
+
 [node name="RTSController" type="Node2D" parent="." unique_id=892348123]
 z_index = 100
 script = ExtResource("27_rts")
@@ -1580,7 +1583,7 @@ water_threshold = -0.3
 iron_patch_size = 20
 
 [node name="Ground" type="TileMapLayer" parent="Terrain" unique_id=2090967643]
-tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_21xkr")
 
 [node name="Crops" type="TileMapLayer" parent="Terrain" unique_id=592631820]
