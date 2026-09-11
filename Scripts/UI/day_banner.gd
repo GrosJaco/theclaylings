@@ -26,6 +26,7 @@ func _get_day_night() -> Node:
 
 func _on_new_day_announced(day_number: int) -> void:
 	text = DayNightCycle.to_roman(day_number)
+	pivot_offset = size / 2.0
 	modulate.a = 0.0
 	scale = Vector2(0.8, 0.8)
 	visible = true

@@ -681,6 +681,10 @@ func _ready():
 	if build_menu:
 		build_menu.start_building.connect(_on_build_menu_start_building)
 
+	var plant_menu = get_node_or_null("CanvasLayer/PlantMenu")
+	if plant_menu:
+		plant_menu.start_building.connect(_on_build_menu_start_building)
+
 	var task_menu = get_node_or_null("CanvasLayer/TaskPriorityMenu")
 	if task_menu:
 		task_menu.quota_changed.connect(_on_quota_changed)
@@ -709,6 +713,17 @@ func debug_trigger_next_wave() -> void:
 	if wm and wm.has_method("trigger_next_wave"):
 		wm.trigger_next_wave()
 
+func create_harvest_zone() -> void:
+	for z in get_tree().get_nodes_in_group("harvest_zones"):
+		if is_instance_valid(z) and z.get("is_placing"):
+			z.queue_free()
+			return
+
+	if zone_scene:
+		var zone = zone_scene.instantiate()
+		zone.global_position = get_global_mouse_position()
+		add_child(zone)
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_C:
@@ -716,9 +731,7 @@ func _input(event: InputEvent) -> void:
 		if event.keycode == KEY_P:
 			spawn_clayling(get_global_mouse_position(), "chicken")
 		if event.keycode == KEY_M:
-			var zone = zone_scene.instantiate()
-			zone.global_position = get_global_mouse_position()
-			add_child(zone)
+			create_harvest_zone()
 		if event.keycode == KEY_Y:
 			get_tree().call_group("weapon_racks", "debug_fill_random_kit")
 		if event.keycode == KEY_K:

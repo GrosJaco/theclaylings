@@ -43,6 +43,7 @@
 [ext_resource type="Resource" uid="uid://sggd6dkkj0ah" path="res://Resources/Building Resources/loom.tres" id="25_o1aky"]
 [ext_resource type="Resource" uid="uid://ocmwk57svsh8" path="res://Resources/Building Resources/forge.tres" id="26_o1aky"]
 [ext_resource type="Script" uid="uid://cwodqykunvp87" path="res://Scripts/Combat/rts_controller.gd" id="27_rts"]
+[ext_resource type="Resource" uid="uid://ctf0xeeto6cpd" path="res://Resources/Building Resources/weapon_rack.tres" id="28_bv80c"]
 [ext_resource type="Script" uid="uid://bfast4qluu4tk" path="res://Scripts/Miscellanious/wave_manager.gd" id="41_aa8k8"]
 [ext_resource type="Script" uid="uid://civhgkjhpq0pu" path="res://Scripts/Data/EnemySpawnData.gd" id="42_s8vy0"]
 [ext_resource type="Resource" uid="uid://d2dt6bb3mjlad" path="res://Resources/Enemies Resources/blue_spider_spawn_data.tres" id="43_jut3y"]
@@ -51,6 +52,9 @@
 [ext_resource type="PackedScene" uid="uid://cq7pjnseuikr5" path="res://Scenes/UI/CrystalPlacementBanner.tscn" id="49_banner"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/TimeSpeedUI.tscn" id="50_timespeed"]
 [ext_resource type="Script" uid="uid://vnqv3ae1adb5" path="res://Scripts/UI/hud_controller.gd" id="51_hud"]
+[ext_resource type="Texture2D" uid="uid://7lryyktm2wj5" path="res://Art/UI/UIIcons.png" id="52_uiicons"]
+[ext_resource type="Resource" uid="uid://slrba8fbdd3w" path="res://Resources/Building Resources/soil_tile.tres" id="53_soiltile"]
+[ext_resource type="Resource" uid="uid://1sujqiqusuy" path="res://Resources/Building Resources/oak_sapling.tres" id="54_oaksapling"]
 
 [sub_resource type="Gradient" id="Gradient_r33sp"]
 offsets = PackedFloat32Array(0.15, 0.25, 0.35, 0.65, 0.75, 0.85)
@@ -166,6 +170,10 @@ region = Rect2(16, 0, 16, 16)
 atlas = ExtResource("8_gt3je")
 region = Rect2(16, 16, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ptfg5"]
+atlas = ExtResource("8_gt3je")
+region = Rect2(16, 32, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_kqrg6"]
 atlas = ExtResource("6_pdsj5")
 region = Rect2(0, 0, 32, 32)
@@ -174,9 +182,25 @@ region = Rect2(0, 0, 32, 32)
 atlas = ExtResource("6_pdsj5")
 region = Rect2(32, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_icon_build"]
+atlas = ExtResource("52_uiicons")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icon_plant"]
+atlas = ExtResource("52_uiicons")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icon_harvest"]
+atlas = ExtResource("52_uiicons")
+region = Rect2(48, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_s8vy0"]
 atlas = ExtResource("6_pdsj5")
 region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icon_claylings"]
+atlas = ExtResource("52_uiicons")
+region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_b3802"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -1191,8 +1215,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DayBanner" type="Label" parent="CanvasLayer" unique_id=680014435]
-offset_right = 1152.0
-offset_bottom = 648.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("11_cbgmd")
 theme_override_font_sizes/font_size = 72
 text = "III"
@@ -1303,29 +1330,32 @@ texture_progress_offset = Vector2(1, 1)
 
 [node name="BuildMenu" type="Control" parent="CanvasLayer" unique_id=1071837459]
 layout_mode = 3
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 11.0
-offset_top = -22.0
-offset_right = 87.0
-offset_bottom = 38.0
-grow_vertical = 2
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = -40.0
+offset_right = 41.0
+offset_bottom = -8.0
+grow_vertical = 0
+theme = ExtResource("11_cbgmd")
 script = ExtResource("14_6vcvc")
-all_buildings = Array[ExtResource("15_kltya")]([ExtResource("16_e08e2"), ExtResource("17_neg2b"), ExtResource("23_536cc"), ExtResource("24_8cuat"), ExtResource("25_o1aky"), ExtResource("26_o1aky")])
+all_buildings = Array[ExtResource("15_kltya")]([ExtResource("16_e08e2"), ExtResource("17_neg2b"), ExtResource("23_536cc"), ExtResource("24_8cuat"), ExtResource("25_o1aky"), ExtResource("26_o1aky"), ExtResource("28_bv80c")])
 frame_normal = SubResource("AtlasTexture_8cuat")
 frame_pressed = SubResource("AtlasTexture_aa8k8")
 category_icons = {
 &"Decoration": null,
 &"Production": SubResource("AtlasTexture_o1aky"),
 &"Storage": SubResource("AtlasTexture_kwxat"),
-&"Survival": null
+&"Survival": SubResource("AtlasTexture_ptfg5")
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/BuildMenu" unique_id=1243517428]
 layout_mode = 0
+offset_top = -233.0
 offset_right = 300.0
-offset_bottom = 223.0
+offset_bottom = -10.0
+grow_vertical = 0
 
 [node name="VBoxContainer" type="HBoxContainer" parent="CanvasLayer/BuildMenu/MarginContainer" unique_id=261525852]
 layout_mode = 2
@@ -1338,24 +1368,142 @@ layout_mode = 2
 columns = 5
 
 [node name="ToggleButton" type="TextureButton" parent="CanvasLayer/BuildMenu" unique_id=1693207639]
-layout_mode = 0
-offset_left = -2.0
-offset_top = 306.0
-offset_right = 30.0
-offset_bottom = 338.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+tooltip_text = "Build Menu"
 texture_normal = SubResource("AtlasTexture_kqrg6")
 texture_pressed = SubResource("AtlasTexture_nwwfm")
 
+[node name="Icon" type="TextureRect" parent="CanvasLayer/BuildMenu/ToggleButton" unique_id=382674692]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.0
+offset_top = -13.0
+offset_right = 13.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_icon_build")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PlantMenu" type="Control" parent="CanvasLayer" unique_id=1092319780]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -40.0
+offset_right = 82.0
+offset_bottom = -8.0
+grow_vertical = 0
+theme = ExtResource("11_cbgmd")
+script = ExtResource("14_6vcvc")
+all_buildings = Array[ExtResource("15_kltya")]([ExtResource("53_soiltile"), ExtResource("54_oaksapling")])
+show_categories = false
+frame_normal = SubResource("AtlasTexture_8cuat")
+frame_pressed = SubResource("AtlasTexture_aa8k8")
+category_icons = {}
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PlantMenu" unique_id=1714697109]
+layout_mode = 0
+offset_left = -41.0
+offset_top = -233.0
+offset_right = 259.0
+offset_bottom = -10.0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="HBoxContainer" parent="CanvasLayer/PlantMenu/MarginContainer" unique_id=1840998937]
+layout_mode = 2
+
+[node name="TabsContainer" type="VBoxContainer" parent="CanvasLayer/PlantMenu/MarginContainer/VBoxContainer" unique_id=1770898617]
+layout_mode = 2
+
+[node name="ItemsContainer" type="GridContainer" parent="CanvasLayer/PlantMenu/MarginContainer/VBoxContainer" unique_id=1234366074]
+layout_mode = 2
+columns = 5
+
+[node name="ToggleButton" type="TextureButton" parent="CanvasLayer/PlantMenu" unique_id=1537502670]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+tooltip_text = "Planting Menu"
+texture_normal = SubResource("AtlasTexture_kqrg6")
+texture_pressed = SubResource("AtlasTexture_nwwfm")
+
+[node name="Icon" type="TextureRect" parent="CanvasLayer/PlantMenu/ToggleButton" unique_id=550657294]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.0
+offset_top = -13.0
+offset_right = 13.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_icon_plant")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HarvestZoneButton" type="TextureButton" parent="CanvasLayer" unique_id=1497393964]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 91.0
+offset_top = -40.0
+offset_right = 123.0
+offset_bottom = -8.0
+grow_vertical = 0
+theme = ExtResource("11_cbgmd")
+tooltip_text = "Harvest Zone"
+focus_mode = 0
+texture_normal = SubResource("AtlasTexture_kqrg6")
+texture_pressed = SubResource("AtlasTexture_nwwfm")
+
+[node name="Icon" type="TextureRect" parent="CanvasLayer/HarvestZoneButton" unique_id=912944242]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.0
+offset_top = -13.0
+offset_right = 13.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_icon_harvest")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="TaskPriorityMenu" type="Control" parent="CanvasLayer" unique_id=612896421]
 layout_mode = 3
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 10.0
-offset_top = -224.0
-offset_right = 50.0
-offset_bottom = -184.0
-grow_vertical = 2
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 132.0
+offset_top = -40.0
+offset_right = 164.0
+offset_bottom = -8.0
+grow_vertical = 0
 theme = ExtResource("11_cbgmd")
 script = ExtResource("19_neg2b")
 background_texture = SubResource("AtlasTexture_s8vy0")
@@ -1367,20 +1515,43 @@ text_color = Color(0.24705882, 0.1882353, 0.3137255, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/TaskPriorityMenu" unique_id=1637910345]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -123.0
+offset_top = -540.0
+offset_right = 117.0
+offset_bottom = -10.0
+grow_vertical = 0
 
 [node name="RowsContainer" type="VBoxContainer" parent="CanvasLayer/TaskPriorityMenu/MarginContainer" unique_id=1918359669]
 layout_mode = 2
 
 [node name="ToggleButton" type="TextureButton" parent="CanvasLayer/TaskPriorityMenu" unique_id=1059878782]
-layout_mode = 0
-offset_left = 40.0
-offset_top = 508.0
-offset_right = 72.0
-offset_bottom = 540.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+tooltip_text = "Task Priorities"
 texture_normal = SubResource("AtlasTexture_kqrg6")
 texture_pressed = SubResource("AtlasTexture_nwwfm")
+
+[node name="Icon" type="TextureRect" parent="CanvasLayer/TaskPriorityMenu/ToggleButton" unique_id=1611069287]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.0
+offset_top = -13.0
+offset_right = 13.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_icon_claylings")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="DefeatUI" parent="CanvasLayer" unique_id=987252036 instance=ExtResource("48_defeat")]
 
@@ -1409,7 +1580,7 @@ water_threshold = -0.3
 iron_patch_size = 20
 
 [node name="Ground" type="TileMapLayer" parent="Terrain" unique_id=2090967643]
-tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_21xkr")
 
 [node name="Crops" type="TileMapLayer" parent="Terrain" unique_id=592631820]

@@ -14,15 +14,16 @@ signal start_building(building_data)
 @onready var items_container: GridContainer = $MarginContainer/VBoxContainer/ItemsContainer
 
 @export var all_buildings: Array[BuildingData] = []
+@export var show_categories: bool = true
 
 @export var frame_normal: Texture2D 
 @export var frame_pressed: Texture2D
 
 @export var category_icons: Dictionary = {
-	"Production": null, 
-	"Storage": null,    
-	"Survival": null,   
-	"Decoration": null
+	"Production": AtlasTexture, 
+	"Storage": AtlasTexture,    
+	"Survival": AtlasTexture,   
+	"Decoration": AtlasTexture
 }
 
 func _ready():
@@ -32,10 +33,19 @@ func _ready():
 		toggle_button.pressed.connect(_on_toggle_pressed)
 		toggle_button.focus_mode = Control.FOCUS_NONE
 		
-	for child in tabs_container.get_children():
-		child.queue_free()
-	for child in items_container.get_children():
-		child.queue_free()
+	if tabs_container:
+		for child in tabs_container.get_children():
+			child.queue_free()
+	if items_container:
+		for child in items_container.get_children():
+			child.queue_free()
+
+	if not show_categories or tabs_container == null:
+		if tabs_container:
+			tabs_container.visible = false
+		for b_data in all_buildings:
+			_create_build_button(b_data)
+		return
 
 	var active_categories = []
 	for b in all_buildings:
@@ -55,6 +65,9 @@ func _ready():
 			
 			var icon_rect = TextureRect.new()
 			icon_rect.texture = category_icons[category]
+			icon_rect.custom_minimum_size = Vector2(26, 26)
+			icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			icon_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			
 			center.add_child(icon_rect)
@@ -91,6 +104,9 @@ func _create_build_button(b_data: BuildingData):
 		
 		var icon_rect = TextureRect.new()
 		icon_rect.texture = b_data.icon
+		icon_rect.custom_minimum_size = Vector2(26, 26)
+		icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		icon_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		
 		center.add_child(icon_rect)

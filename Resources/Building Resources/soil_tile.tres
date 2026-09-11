@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3 uid="uid://slrba8fbdd3w"]
+
+[ext_resource type="Script" uid="uid://bg164elkow3gd" path="res://Scripts/Data/BuildingData.gd" id="1_bd"]
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_d1ne2"]
+[ext_resource type="PackedScene" uid="uid://bjcyygc4ercod" path="res://Scenes/Buildings/SoilTile.tscn" id="2_st"]
+[ext_resource type="Texture2D" uid="uid://7lryyktm2wj5" path="res://Art/UI/UIIcons.png" id="3_ui"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_carrot"]
+atlas = ExtResource("3_ui")
+region = Rect2(32, 0, 16, 16)
+
+[resource]
+script = ExtResource("1_bd")
+building_name = "Carrots"
+category = "Agriculture"
+icon = SubResource("AtlasTexture_carrot")
+scene = ExtResource("2_st")
+metadata/_custom_type_script = "uid://bg164elkow3gd"

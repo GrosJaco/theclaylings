@@ -58,6 +58,7 @@ func update_inventory():
 		categories_container.add_child(panel)
 		panel.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 		panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+		panel.custom_minimum_size = Vector2(125, 0)
 		
 		if panel_style:
 			panel.add_theme_stylebox_override("panel", panel_style)
@@ -96,8 +97,8 @@ func update_inventory():
 		var header_label = Label.new()
 		header_label.text = " " + str(cat_data[cat_name]["total"])
 		header_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-		header_label.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
-		header_label.custom_minimum_size = Vector2(48, 0)
+		header_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+		header_label.custom_minimum_size = Vector2(80, 0)
 		
 		header_hbox.add_child(cat_icon)
 		header_hbox.add_child(header_label)
@@ -129,7 +130,8 @@ func update_inventory():
 			
 			var label = Label.new()
 			label.text = str(amount)
-			label.custom_minimum_size = Vector2(30, 0)
+			label.autowrap_mode = TextServer.AUTOWRAP_OFF
+			label.custom_minimum_size = Vector2(60, 0)
 			
 			hbox.add_child(icon)
 			hbox.add_child(label)

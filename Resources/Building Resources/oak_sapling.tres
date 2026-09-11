@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3 uid="uid://1sujqiqusuy"]
+
+[ext_resource type="Script" uid="uid://bg164elkow3gd" path="res://Scripts/Data/BuildingData.gd" id="1_bd"]
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_d76kg"]
+[ext_resource type="PackedScene" uid="uid://blh4rty1xcs5p" path="res://Scenes/Buildings/OakSapling.tscn" id="2_os"]
+[ext_resource type="Texture2D" uid="uid://bp381d2uhunyy" path="res://Art/Trees.png" id="3_tr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sapling"]
+atlas = ExtResource("3_tr")
+region = Rect2(0, 0, 16, 16)
+
+[resource]
+script = ExtResource("1_bd")
+building_name = "Oak Sapling"
+category = "Agriculture"
+icon = SubResource("AtlasTexture_sapling")
+scene = ExtResource("2_os")
+metadata/_custom_type_script = "uid://bg164elkow3gd"

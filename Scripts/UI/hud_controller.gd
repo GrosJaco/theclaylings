@@ -10,6 +10,8 @@ class_name HUDController
 @onready var task_priority_menu: Control = $TaskPriorityMenu
 @onready var clayling_info_ui: Control = $ClaylingInfoUI
 @onready var defeat_ui: DefeatUI = $DefeatUI
+@onready var plant_menu: Control = get_node_or_null("PlantMenu")
+@onready var harvest_zone_button: TextureButton = get_node_or_null("HarvestZoneButton")
 
 var _gameplay_hud_elements: Array[Control] = []
 var _is_hud_visible: bool = true
@@ -26,6 +28,14 @@ func _ready() -> void:
 		build_menu,
 		task_priority_menu
 	]
+
+	if plant_menu:
+		_gameplay_hud_elements.append(plant_menu)
+
+	if harvest_zone_button:
+		_gameplay_hud_elements.append(harvest_zone_button)
+		harvest_zone_button.pressed.connect(_on_harvest_zone_button_pressed)
+		harvest_zone_button.focus_mode = Control.FOCUS_NONE
 
 	# Hide HUD if waiting for initial crystal placement
 	var has_crystal = _has_active_crystal()
@@ -93,3 +103,10 @@ func set_gameplay_hud_visible(is_vis: bool, animate: bool = false) -> void:
 
 	if not is_vis and clayling_info_ui and is_instance_valid(clayling_info_ui):
 		clayling_info_ui.visible = false
+
+# ---------- BUTTON ACTIONS ----------
+
+func _on_harvest_zone_button_pressed() -> void:
+	var main_node = get_tree().get_first_node_in_group("main")
+	if main_node and main_node.has_method("create_harvest_zone"):
+		main_node.create_harvest_zone()

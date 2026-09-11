@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3 uid="uid://fm5j4sc4dsy6"]
+
+[ext_resource type="Script" uid="uid://bd2ixn7bdlbcp" path="res://Scripts/Data/ItemData.gd" id="1_35emo"]
+[ext_resource type="Script" uid="uid://bg164elkow3gd" path="res://Scripts/Data/BuildingData.gd" id="1_bd"]
+[ext_resource type="PackedScene" uid="uid://fvqlbr5k4wvy" path="res://Scenes/Buildings/FiberGrass.tscn" id="2_fg"]
+[ext_resource type="Texture2D" uid="uid://dxsygva006nvp" path="res://Art/Plants.png" id="3_pl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fiber_icon"]
+atlas = ExtResource("3_pl")
+region = Rect2(0, 16, 16, 16)
+
+[resource]
+script = ExtResource("1_bd")
+building_name = "Plante à fibres"
+category = "Agriculture"
+icon = SubResource("AtlasTexture_fiber_icon")
+scene = ExtResource("2_fg")
+metadata/_custom_type_script = "uid://bg164elkow3gd"

@@ -21,6 +21,7 @@ var is_previewing := false
 
 var preview_tiles: Array[Vector2i] = []
 var preview_can_place := false
+var is_dragging_placement: bool = false
 
 var current_build_cost: Dictionary = {}
 var current_build_texture: Texture2D = null
@@ -68,7 +69,10 @@ func _input(event):
 		if event.keycode == KEY_A:
 			start_preview(storage_building_scene)
 		if event.keycode == KEY_B:
-			start_preview(soil_tile_scene)
+			if is_previewing and current_preview_scene == soil_tile_scene:
+				cancel_preview()
+			else:
+				start_preview(soil_tile_scene)
 		if event.keycode == KEY_F:
 			start_preview(furnace_scene)
 		if event.keycode == KEY_O:
@@ -79,27 +83,45 @@ func _input(event):
 		if event.keycode == KEY_T:
 			if sapling_scene:
 				start_preview(sapling_scene)
+		if event.keycode == KEY_ESCAPE:
+			if is_previewing and not is_mandatory_placement:
+				cancel_preview()
+				get_viewport().set_input_as_handled()
 	
 	# Mouse interaction during preview
-	if is_previewing and event is InputEventMouseButton and event.pressed:
+	if is_previewing and event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			var b_type = preview_instance.get("building_type")
-			if b_type == null:
-				b_type = "building"
-			if b_type == "ground_tile":
-				place_tile_type(b_type)
+			if event.pressed:
+				if not _is_mouse_over_ui():
+					var b_type = preview_instance.get("building_type") if preview_instance else null
+					if b_type == null:
+						b_type = "building"
+					if b_type == "ground_tile":
+						is_dragging_placement = true
+						place_tile_type(b_type)
+						get_viewport().set_input_as_handled()
+					else:
+						confirm_placement()
+						get_viewport().set_input_as_handled()
 			else:
-				confirm_placement()
-				get_viewport().set_input_as_handled()
-		elif event.button_index == MOUSE_BUTTON_RIGHT:
+				is_dragging_placement = false
+		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 			if not is_mandatory_placement:
 				cancel_preview()
 				get_viewport().set_input_as_handled()
+
+	# Mouse drag motion during preview
+	if is_previewing and is_dragging_placement and event is InputEventMouseMotion:
+		if not _is_mouse_over_ui() and _is_crop_preview():
+			_update_preview_under_mouse()
+			if preview_can_place:
+				place_tile_type("ground_tile")
 
 # ---------- PREVIEW ----------
 
 func start_preview(scene: PackedScene, cost: Dictionary = {}):
 	cancel_preview()
+	is_dragging_placement = false
 	current_preview_scene = scene
 	current_build_cost = cost
 	preview_instance = scene.instantiate()
@@ -113,6 +135,9 @@ func _process(_delta):
 	if !is_previewing or !preview_instance:
 		return
 	_update_preview_under_mouse()
+	if is_dragging_placement and not _is_mouse_over_ui() and _is_crop_preview():
+		if preview_can_place:
+			place_tile_type("ground_tile")
 
 func _update_preview_under_mouse():
 	var size: Vector2i = Vector2i(1, 1)
@@ -162,10 +187,15 @@ func place_tile_type(x):
 
 	match x:
 		"ground_tile":
+			if not preview_can_place:
+				return
 			for tile in preview_tiles:
 				world.ground.set_cell(tile, 0, Vector2i(6,0))
 				world.water_level[tile] = 0
-				used_tiles.append(tile)
+				if tile not in used_tiles:
+					used_tiles.append(tile)
+			_update_preview_under_mouse()
+			return
 	
 	cancel_preview()
 
@@ -219,6 +249,7 @@ func confirm_placement():
 func cancel_preview():
 	if is_mandatory_placement:
 		return
+	is_dragging_placement = false
 	if preview_instance:
 		preview_instance.queue_free()
 	preview_instance = null
@@ -227,6 +258,19 @@ func cancel_preview():
 	is_previewing = false
 	preview_tiles.clear()
 	preview_can_place = false
+
+func _is_crop_preview() -> bool:
+	if not preview_instance:
+		return false
+	return preview_instance.get("building_type") == "ground_tile"
+
+func _is_mouse_over_ui() -> bool:
+	var vp = get_viewport()
+	if vp:
+		var hovered = vp.gui_get_hovered_control()
+		if hovered and hovered.is_visible_in_tree() and hovered.mouse_filter != Control.MOUSE_FILTER_IGNORE:
+			return true
+	return false
 
 #---------- DELETING ----------
 
