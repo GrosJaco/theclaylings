@@ -55,7 +55,6 @@ A Godot 4.6 2D colony simulation and real-time strategy (RTS) defense game where
 | Key / Input | Action |
 | --- | --- |
 | `C` | Spawn Clayling at mouse position |
-| `P` | Spawn Chicken at mouse position |
 | `N` | Spawn Blue Spider enemy at mouse position |
 | `V` | Spawn Purple Spider enemy at mouse position |
 | `L` | Manually trigger next enemy wave |
